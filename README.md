@@ -10,7 +10,7 @@ i started when i was learning compiler and language design.
 ## Some Background
 
 sola is written in `c`, and it compiles to custom `bytecode`,
-That i created and immediately executes or runs that bytecode 
+and immediately executes or runs that bytecode 
 in the `vm` to produce the result.
 
 
