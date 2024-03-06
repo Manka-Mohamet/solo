@@ -109,8 +109,11 @@ sola test.sol
 I want to thank many people who helped me learn compiler and language design knowing or not knowing.
 
 one of them is ``Robert Nystrom`` who is one of the google engineers who 
-designed and created `dart` language, he also created many languages on his own, one of them is [wren](https://wren.io/)
-his blog post and book he talked about different parsing techniques.
+designed and created `dart` language, he also created many languages on his own, 
+
+One of them is [wren](https://wren.io/)
+
+His blog post and book he talked about different parsing techniques for generating ASTs and bytecode.
 
 Thanks again for providing free educational resources.
 
@@ -121,6 +124,6 @@ You can learn the syntex of language in doc/ directory.
 
 Also if you want to contribute and have fun adding feature to this
 project you are welcome contact [@abdulrahman](abdulrahman.muhammad.omar.201@gmail.com).
-and read the CONTRIBUTING.md file.
+and read the [contribute](https://github.com/Betricks/sola/blob/main/CONTRIBUTING.md)
 
 In the end i am student at `Hormuud university` foculty of computer science and information technology.
