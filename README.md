@@ -27,7 +27,7 @@ but i used stack based virtual machine
 
 # Installation
 
-If you want to run in you local machine.
+If you want to run sola in you local machine.
 
 First clone the repository
 ```sh
@@ -39,7 +39,9 @@ git clone https://github.com/Betricks/sola.git
 
 ### Linux
 
-When the repository is cloned or downloaded in local device, then if you are using linux 
+When the repository is cloned or downloaded in local device, 
+
+Then if you are using linux 
 you can run this command to automate the compilation process.
 
 ```sh
