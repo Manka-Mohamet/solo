@@ -108,12 +108,11 @@ sola test.sol
 
 I want to thank many people who helped me learn compiler and language design knowing or not knowing.
 
-one of them is ``Robert Nystrom`` who is one of the google engineers who 
-designed and created `dart` language, he also created many languages on his own, 
+One of them is Language Engineer ``Robert Nystrom`` Who is one of the  engineers who is working at google to designed and created `dart` language, he also created many languages on his own, 
 
-One of fun languages that he create is [wren](https://wren.io/)
+One of The fun languages that  ``Robert Nystrom`` created is [wren](https://wren.io/).
 
-His blog post and book he talked about different parsing techniques for generating ASTs and bytecode.
+His blog posts, papers and books he talked about different parsing techniques for generating ASTs and bytecode.
 
 Thanks again for providing Free Educational Resources.
 
