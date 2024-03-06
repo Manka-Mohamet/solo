@@ -111,19 +111,19 @@ I want to thank many people who helped me learn compiler and language design kno
 one of them is ``Robert Nystrom`` who is one of the google engineers who 
 designed and created `dart` language, he also created many languages on his own, 
 
-One of them is [wren](https://wren.io/)
+One of fun languages that he create is [wren](https://wren.io/)
 
 His blog post and book he talked about different parsing techniques for generating ASTs and bytecode.
 
-Thanks again for providing free educational resources.
+Thanks again for providing Free Educational Resources.
 
 
 # End
 
-You can learn the syntex of language in doc/ directory.
+You can learn the syntex of The language in doc/ directory.
 
-Also if you want to contribute and have fun adding feature to this
-project you are welcome contact [@abdulrahman](abdulrahman.muhammad.omar.201@gmail.com).
+Also if you want to contribute and have fun adding features to this
+project you are welcome contact [A/Man](https://wa.link/0gaepx)
 and read the [contribute](https://github.com/Betricks/sola/blob/main/CONTRIBUTING.md)
 
-In the end i am student at `Hormuud university` foculty of computer science and information technology.
+In the End i am student at `Hormuud university` foculty of computer science and information technology.
