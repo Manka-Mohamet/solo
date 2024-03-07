@@ -4,7 +4,6 @@ waxaa jira different way eeloo represent gareeyo language waxaa kamid ah:
 	1. Abstract Syntex Tree (ASTs)
 	2. ByteCode (Custom Instruction Set)
 	3. Machine Code (0s and 1s)
-
 */
 
 
@@ -16,6 +15,16 @@ waxaa jira different way eeloo represent gareeyo language waxaa kamid ah:
 
 
 
+/*
+ OpCode short for Operational code  waa instructions uu Virtual Machine ka execute gareenaayo.
+ example:
+	OP_ADD
+	b = pop();
+	a = pop();
+	push(a + b)
+explanation: it the virtual machine la kulmo OP_ADD, labada values ee ugu koreeso stack 
+	ayuu isku daraa kadibna result ga soo baxa ayuu stack ku push gareenaa.
+*/
 typedef enum{
 
 	OP_ADD,
@@ -45,10 +54,10 @@ typedef enum{
 
 
 /*
-Chunk struct waa  "thick pointer"
+@Description - Chunk struct waa  "thick pointer"
 user can't Chunk access directly instead they use interface functions provided below 
 Chunk struct waa dynamic array, waxa uu isticmaalaa 
-       Description:
+
 @length    -  waxa uu hold gareenaa total elements in the array.
 @capacity  -  waxa uu hold gareenaa total capacity alocated for this array.
 @bytecode  -  waa pointer to bytecode instructions
