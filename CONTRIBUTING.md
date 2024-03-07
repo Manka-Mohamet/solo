@@ -10,7 +10,9 @@ After that we will accept your pull request and Merge your fork to the main repo
 
 ### Packages
 
-If you want to build new usefull packages for the langauge, please publish to the github repo,
+If you want to build new usefull packages for the langauge, 
+please Send a request, we will add you to the `sola-community` publish your code repo to community.
+
 Untill `Package Manager` is being added to the language.
 
 
