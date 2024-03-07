@@ -123,6 +123,6 @@ You can learn the syntex of The language in doc/ directory.
 
 Also if you want to contribute and have fun adding features to this
 project you are welcome contact [A/Man](https://wa.link/0gaepx)
-and read the [contribute](https://github.com/Betricks/sola/blob/main/CONTRIBUTING.md)
+and read [contribute guide](./CONTRIBUTING.md)
 
 In the End i am student at `Hormuud university` foculty of computer science and information technology.
