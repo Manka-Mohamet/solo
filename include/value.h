@@ -48,6 +48,28 @@ typedef struct{
 
 }Value;
 
+/*
+ THESE MACROS - wxay numbers, booleans and null ku keydinaayaan 'Value Struct'
+*/
+#define NUMBER_VAL(value)   ((Value){NUMBER, {.number value}})
+#define NIL_VAL             ((Value){NILL, {.number = 0}})
+#define BOOL_VAL(value)     ((Value){BOOL,  {.boolean = value}})
+
+
+/*
+THESE MACROS - waxay qaadanaayaan 'Value Struct', kadib waxay soo return gareenayaan literal value.
+*/
+#define AS_BOOL(value)   ((value).as.boolean)
+#define AS_NUMBER(value) ((value).as.number)
+
+
+/*
+THESE MACROS - waxay hubinaayaan 'Value Struct' loosoo baasay inuu type kiisa mid saxanyahay.
+*/
+#define IS_BOOL(value)    ((value).type == BOOL)
+#define IS_NIL(value)     ((value).type == NILL)
+#define IS_NUMBER(value)  ((value).type == NUMBER)
+
 
 
 /*
@@ -64,6 +86,8 @@ typedef struct{
 	Value* values;
 
 }ValueArray;
+
+
 
 
 // waxay initialize gareenee new ValueArray.
