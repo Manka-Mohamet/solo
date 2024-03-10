@@ -3,7 +3,7 @@
 
 #include "../include/vm.h"
 #include "../include/memory.h"
-
+#include "../include/chunk.h"
 
 VM vm;
 
@@ -71,7 +71,7 @@ InterpretResult interpret(const char* source){
 	initChunk(&chunk);
 
 	if (!compile(source, &chunk){
-		free(&chunk);
+		freeChunk(&chunk);
 		return INTERPRET_COMPILE_ERROR;
 	}
 
