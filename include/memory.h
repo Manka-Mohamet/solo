@@ -10,12 +10,12 @@
 #define GROW_CAPACITY(capacity) (capacity < 8 ? 8 : (capacity) * 2)
 
 
-#define GROW_ARRAY(type, pointer, oldCapacity, newCapacity) 
-	(type*)realocate(pointer, sizeof(type) * (oldCapacity), sizeof(type) * newCapacity)
+#define GROW_ARRAY(type, pointer, oldcapacity, capacity) \
+	(type*)realocate(pointer, sizeof(type) * (oldcapacity), sizeof(type) * (capacity))
 
 
-#define FREE_ARRAY(type, pointer oldCapacity)
-	(type*)realocate(pointer, sizeof(type) * (oldCapacity), sizeof(type) * (newCapacity), 0)
+#define FREE_ARRAY(type, pointer, capacity) \
+	realocate(pointer, sizeof(type) * (capacity), 0)
 
 
 void* realocate(void* pointer, size_t oldCapacity, size_t newCapacity);

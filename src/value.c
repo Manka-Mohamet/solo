@@ -19,7 +19,7 @@ void writeValueArray(ValueArray* array, Value value){
 		array->values = GROW_ARRAY(Value, array, array->capacity, capacity);
 	}
 
-	array->values[array->length] = value
+	array->values[array->length] = value;
 	array->length++;
 }
 
@@ -28,6 +28,6 @@ void writeValueArray(ValueArray* array, Value value){
 
 void freeValueArray(ValueArray* array){
 	FREE_ARRAY(Value, array->values, array->capacity);
-	initValueArray(array->values);
+	initValueArray(array);
 
 }

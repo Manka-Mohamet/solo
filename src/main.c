@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "../include/vm.h"
+
+
 static void _runRepl(){
 
 	printf("sola is dynamicly typed scripting language based on somali words\n");
@@ -15,7 +18,8 @@ static void _runRepl(){
 			break;
 		}
 
-		printf(line);
+		interpret(line);
+
 	}
 
 }
@@ -23,7 +27,8 @@ static void _runRepl(){
 
 static void _runFile(const char* filepath){
 	//open the file in a read mode
-	FILE* file = fopen(filepath);
+	FILE* file = fopen(filepath, "rb");
+
 	if (file == NULL){
 		fprintf(stderr, "can't open %s", filepath);
 		exit(11);
@@ -49,7 +54,7 @@ static void _runFile(const char* filepath){
 	source[bytesRead] = '\0';
 
 	//close the file
-	floce(file);
+	fclose(file);
 
 
 	//at this stage we pass our source to interpret
@@ -65,6 +70,7 @@ static void _runFile(const char* filepath){
 
 
 int main(int argc, const char* argv[]){
+	initVM();
 
 	if (argc == 1){
 		_runRepl();
@@ -76,5 +82,7 @@ int main(int argc, const char* argv[]){
 		exit(64);
 	}
 
-	exit(0);
+	freeVM();
+	return 0;
+
 }

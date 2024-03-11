@@ -1,9 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "../include/value.h"
 #include "../include/vm.h"
 #include "../include/memory.h"
 #include "../include/chunk.h"
+#include "../include/compiler.h"
+
 
 VM vm;
 
@@ -15,7 +18,7 @@ void push(Value value){
 		vm.stack = GROW_ARRAY(Value, vm.stack, OldCapacity, vm.capacity);
 	}
 
-	vm.stackTop = value;
+	*vm.stackTop = value;
 	vm.stackTop++;
 	vm.length++;
 }
@@ -26,7 +29,8 @@ void push(Value value){
 Value pop(){
 
 	if (vm.length < 0){
-		return;
+		fprintf(stderr, "There is no instruction to pop of from the stack.");
+		exit(79);
 	}
 
 	vm.length--;
@@ -36,23 +40,39 @@ Value pop(){
 }
 
 
+
+
+void freeStack(VM* vm){
+	FREE_ARRAY(Value, vm->stack, vm->capacity);
+	vm->length = 0;
+	vm->capacity = 0;
+	vm->stack = NULL;
+	vm->stackTop = NULL;
+	vm->chunk = NULL;
+	vm->ip = NULL;
+}
+
+
+
 /*
 run() - waa wadnaha program ka,  90% shaqada luuqada waxaa qabanaayo function kan
 waxaan isticmaalnay big switch case si aan u execte gareeno instruction waliba.
 */
 InterpretResult run(){
 
-	#define READ_BYTE  (*vm.ip++)
+	#define READ_BYTE()  (*vm.ip++)
 
 
 
 	for(;;){
 
-	   uint8_t instruction;
+	   uint8_t  instruction;
 	   switch(instruction = READ_BYTE()){
-		case OP_NEGATE:
-			push(VAL_NUMBER(-pop()));
-	  }
+		case OP_RETURN:
+			return INTERPRET_OK;
+
+
+	}
 
 	}
 
@@ -66,11 +86,11 @@ InterpretResult run(){
 
 
 
-InterpretResult interpret(const char* source){
+InterpretResult interpret(char* source){
 	Chunk chunk;
 	initChunk(&chunk);
 
-	if (!compile(source, &chunk){
+	if (!compile(source, &chunk)){
 		freeChunk(&chunk);
 		return INTERPRET_COMPILE_ERROR;
 	}
@@ -81,8 +101,8 @@ InterpretResult interpret(const char* source){
 
 	InterpretResult result = run();
 
-	free(&chunk);
-	free(&vm);
+	freeChunk(&chunk);
+	freeStack(&vm);
 
 	return result;
 

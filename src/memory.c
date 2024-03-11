@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "..include/memory.h"
+#include "../include/memory.h"
 
 
 void* realocate(void* pointer, size_t oldCapacity, size_t newCapacity){
@@ -9,7 +9,7 @@ void* realocate(void* pointer, size_t oldCapacity, size_t newCapacity){
 		return NULL;
 	}
 
-	void* result = realoc(pointer, newCapacity);
+ 	void* result = realloc(pointer, newCapacity);
 	return result;
 
 }

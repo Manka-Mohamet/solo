@@ -43,9 +43,15 @@ typedef struct{
 	Value* stack;
 	Value* stackTop;
 
-	uint8_t ip;
-	Chunk chunk;
+	uint8_t*  ip;
+	Chunk* chunk;
 }VM;
+
+
+/*
+waxay initialize gareeneysaa virtual machine-ka
+*/
+void initVM();
 
 
 /*
@@ -58,10 +64,21 @@ pop() - waxay ka remove gareeneesaa Value from the stack kadibna, soo return gar
 */
 Value pop();
 
+
+/*
+waxa ay free gareeneysaa heap allocated memory kaaso stack isticmaalaayo.
+*/
+void freeStack(VM* vm);
+
 /*
 interpret() - waxay isku xireysaa pipelines.
 */
-InterpretResult interpret(const char* source);
+InterpretResult interpret(char* source);
+
+/*
+Markaan ka dhamaano isticmaal virtual machine-ka kadib waa free gareeneynaa.
+*/
+void freeVM();
 
 
 #endif

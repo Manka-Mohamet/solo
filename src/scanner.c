@@ -18,7 +18,7 @@ Scanner scanner;
 TokenArray array;
 
 
-void initScanner(const char* source){
+void initScanner(char* source){
 	scanner.start = source;
 	scanner.current = source;
 	scanner.line = 1;
@@ -29,8 +29,8 @@ void initScanner(const char* source){
 
 void writeToken(TokenArray* array, Token token){
 	if (array->count + 1 > array->capacity){
-		int oldCapacity = GROW_CAPACITY(array->capacity);
-		array->tokens  = GROW_ARRAY(Token, array->tokens, array->capacity,  array->capacity);
+		int capacity = GROW_CAPACITY(array->capacity);
+		array->tokens  = GROW_ARRAY(Token, array->tokens, array->capacity,  capacity);
 
 	}
 
@@ -50,12 +50,63 @@ void freeToken(TokenArray* array){
 }
 
 
+
+typedef struct Keyword{
+
+	char* name;
+	int length;
+	TokenType type;
+
+}Keyword;
+
+
+// table-kan waa reserved keywords in our language.
+static Keyword keywords[] = {
+
+	{"iyo", 3, TOKEN_AND},
+	{"ama", 3, TOKEN_OR },
+	{"hadii", 5, TOKEN_IF},
+	{"halka", 5, TOKEN_WHILE},
+	{"daabac", 6, TOKEN_PRINT},
+	{"celi", 4, TOKEN_RETURN},
+	{"qor", 3, TOKEN_INPUT},
+	{"def", 3, TOKEN_FUN},
+	{"class", 5, TOKEN_CLASS},
+	{"kan", 3, TOKEN_THIS},
+	{"dhaxlaa", 7, TOKEN_EXTENDS},
+	{"kor", 3, TOKEN_SUPER},
+	{"for", 3, TOKEN_FOR},
+	{"kale", 3, TOKEN_ELSE},
+	{"waxba", 5, TOKEN_NIL},
+	{"qalad", 5, TOKEN_FALSE},
+	{"sax", 3, TOKEN_TRUE},
+
+	/* kani reserved keyword ma'han balse,
+	waxa uu cadeynaa inuu file-ka dhamaadkiisa lajoogo.*/
+	{NULL, 0, TOKEN_EOF},
+};
+
+
+
 //////////////////////
 // HELPER FUNCTION //
 ////////////////////
 
 static bool isAtEnd(){
 	return *scanner.current == '\0';
+
+}
+
+
+static bool isDigit(char c){
+	return c >= '0' && c <= '9';
+
+}
+
+
+static bool isAlpha(char c){
+
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c  == '_';
 
 }
 
@@ -98,12 +149,12 @@ static char advance(){
 
 
 
-static Token errorToken(const char* message){
+static Token errorToken(char* message){
 
 	Token token;
 
 	token.type = TOKEN_ERROR;
-	token.start = message
+	token.start = message;
 	token.length = (int)strlen(message);
 	token.line = scanner.line;
 
@@ -119,7 +170,7 @@ static Token createToken(TokenType type){
 
         token.type = type;
         token.start = scanner.start;
-        token.length =  (int)strlen(scanner.current - scanner.start);
+        token.length = (int) (scanner.current - scanner.start);
         token.line = scanner.line;
 
         return token;
@@ -153,7 +204,7 @@ static Token singleString(){
                 advance();
         }
 
-        if (isAtEnd()) return errorToken("single string charecter aan xirnayn">
+        if (isAtEnd()) return errorToken("single string charecter aan xirnayn");
 
         advance();
 
@@ -162,12 +213,59 @@ static Token singleString(){
 }
 
 
+static Token number(){
+	while (isDigit(peek())) advance();
 
+	if (peek() == '.'){
+
+		advance();
+
+		while(isDigit(peek())) advance();
+	}
+
+	return createToken(TOKEN_NUMBER);
+
+}
+
+
+
+static TokenType identifierType(){
+
+	int length = (int)(scanner.current - scanner.start);
+	TokenType type = TOKEN_IDENTIFIER;
+
+	for (Keyword* keyword = keywords; keyword->name != NULL; keyword++){
+	   // looking for is this reserved work or an identifier.
+		if(length == keyword->length && memcmp(scanner.start, keyword->name, length)){
+			type = keyword->type;
+			break;
+		}
+
+	}
+
+
+	return type;
+}
+
+
+static  Token identifier(){
+
+	while(isAlpha(peek()) || isDigit(peek())) advance();
+
+	return createToken(identifierType());
+
+
+}
 
 
 
 static void _scanTokens(){
+
 	char c = advance();
+
+	if (isDigit(c)) writeToken(&array, number());
+	if (isAlpha(c)) writeToken(&array, identifier());
+
 
 	switch (c){
 
@@ -195,7 +293,7 @@ static void _scanTokens(){
 
 		// whitespacess, tab, newlines and comments
 	  case '\n': {
-		scanner.line++
+		scanner.line++;
 		advance();
 		break;
 	 }
@@ -211,6 +309,9 @@ static void _scanTokens(){
 	  case '\'': writeToken(&array, singleString()); break;
 
 
+
+
+
 	}
 
 
@@ -223,16 +324,16 @@ TokenArray*  scannToken(){
 
 	array.count = 0;
 	array.capacity = 0;
-	array.tokens = NULL,
+	array.tokens = NULL;
 
 	while (!isAtEnd()){
-		_scannTokens();
+		_scanTokens();
 
 	}
 
 	Token token = createToken(TOKEN_EOF);
 	writeToken(&array, token);
 
-	return &array
+	return &array;
 
 }
