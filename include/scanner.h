@@ -99,4 +99,8 @@ void freeToken(TokenArray* array);
 //initScanner - waxay initialize gareenee New Scanner.
 void initScanner(char* source);
 
+
+TokenArray* scannToken();
+
+
 #endif
