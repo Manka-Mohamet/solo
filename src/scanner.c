@@ -309,8 +309,9 @@ static void _scanTokens(){
 	  case '\'': writeToken(&array, singleString()); break;
 
 
-
-
+	  defualt:
+		writeToken(&array, errorToken("Charcter aan la' aqoon"));
+		break;
 
 	}
 

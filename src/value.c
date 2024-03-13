@@ -31,3 +31,12 @@ void freeValueArray(ValueArray* array){
 	initValueArray(array);
 
 }
+
+
+void printValue(Value value){
+
+	switch(value.type){
+		//oupting values in the terminal
+	}
+
+}

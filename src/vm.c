@@ -10,6 +10,16 @@
 
 VM vm;
 
+static void resetStack(){
+	vm.stackTop = vm.stack;
+}
+
+void initVM(){
+	resetStack();
+
+}
+
+
 
 void push(Value value){
 	if (vm.capacity < vm.length + 1){
@@ -96,7 +106,6 @@ InterpretResult interpret(char* source){
 	}
 
 	vm.chunk = &chunk;
-	vm.stackTop = vm.stack;
 	vm.ip = vm.chunk->bytecode;
 
 	InterpretResult result = run();
@@ -105,5 +114,11 @@ InterpretResult interpret(char* source){
 	freeStack(&vm);
 
 	return result;
+
+}
+
+
+
+void freeVM(){
 
 }

@@ -17,7 +17,11 @@ typedef struct{
 }Parser;
 
 Parser parser;
+Chunk* compilingChunk;
 
+static Chunk* currentChunk(){
+	return compilingChunk;
+}
 
 //////////////////////////////
 ///REPORTING SYNTEX ERRORS///
@@ -87,16 +91,43 @@ static void consume(TokenType type, char* message){
 
 
 
+
+
+///////////////////////
+// EMITING BYTECODE //
+/////////////////////
+static void emitByte(uint8_t byte){
+	writeChunk(currentChunk(), byte, parser.previous.line);
+}
+
+
+
+static void emitReturn(){
+	emitByte(OP_RETURN);
+
+}
+
+
+static void endCompiler(){
+	emitReturn();
+}
+
+
+
 bool compile(char* source, Chunk* chunk){
 	initScanner(source);
 
 	parser.panicMode = false;
 	parser.hadError = true;
 
+	compilingChunk = chunk;
+
 	tokenIndex = scannToken()->tokens;
 	advance();
 	//expresion();
 	consume(TOKEN_EOF, "expression-ka inay dhamaato ayaa la filaa");
+
+	endCompiler();
 
 	return !parser.hadError;
 

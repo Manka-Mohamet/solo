@@ -99,6 +99,8 @@ void writeValueArray(ValueArray* array,  Value value);
 //waxay ogolaanee inaan free gareeno array dan memoryga ay isticmaashay.
 void freeValueArray(ValueArray* array);
 
+// printValue - waa  function kaliya dhaga caawineysa inaan  ouput sameen karno.
+void printValue(Value value);
 
 
 #endif
