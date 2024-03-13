@@ -19,6 +19,7 @@ Parser parser;
 
 Chunk* compilingChunk;
 
+
 /* waxa uu ka koobanyahay precedence level.
 PREC_NONE has lower precedence marka lal barbar dhigo PREC_ASSIGNMENT.
 1. instruction hadii uu leeyahay higher precedence waxay
@@ -42,6 +43,7 @@ typedef enum {
 
 typedef void (*Parsefn)();
 
+
 /*
 parse Rule - waxa uu noo ogalaanaa sameeno table kasoo ka kooban rules.
 */
@@ -53,9 +55,15 @@ typedef struct{
 }ParseRule;
 
 
+
+
+
 static Chunk* currentChunk(){
 	return compilingChunk;
 }
+
+
+
 
 //////////////////////////////
 ///REPORTING SYNTEX ERRORS///
@@ -79,9 +87,13 @@ static void errorAt(Token* token, char* message){
 }
 
 
+
+
 static void errorAtCurrent(char* message){
 	errorAt(&parser.current, message);
 }
+
+
 
 
 
@@ -96,6 +108,7 @@ static void error(char* message){
 //HELPER FUNCTIONA///
 ////////////////////
 Token* tokenIndex = NULL;
+
 static void advance(){
 	parser.previous = parser.current;
 
@@ -136,10 +149,12 @@ static void emitByte(uint8_t byte){
 
 
 
+
 static void emitReturn(){
 	emitByte(OP_RETURN);
 
 }
+
 
 
 static void endCompiler(){
@@ -151,6 +166,89 @@ static void endCompiler(){
 ////////////////////
 // PRATT PARSING //
 //////////////////
+
+static void expression();
+static ParseRule* getRule(TokenType type);
+static void parsePrecedence(Precedence precedence);
+
+
+static uint8_t makeConstant(double value){
+	int constant = addConstant(currentChunk(), value);
+	if (constant > UINT8_MAX){
+		error("Too many constants in one chunk");
+		return;
+	}
+
+	return (uint8_t)constant;
+}
+
+/*
+emitting constant values.
+*/
+static void emitConstant(double value){
+	emitByte(OP_CONSTANT);
+	emitByte(makeConstant(value));
+}
+
+
+static void number(){
+	// marka hore value waxaa u bedeleynaa double type.
+	double value = strtod(parser.previous.start, NULL);
+	emitConstant(value);
+}
+
+
+
+static void grouping(){
+	expression();
+	consume(TOKEN_RIGHT_PAREN, "waxaa lagaa rabaa ')' expression kadib");
+}
+
+
+
+
+static void unary(){
+	TokenType type = parser.previous.type;
+	parsePrecedence(PREC_UNARY);
+
+
+	switch(type){
+
+		case TOKEN_MINUS: emitByte(OP_NEGATE);
+		default:
+		    return;
+	}
+
+}
+
+
+
+
+static void binary(){
+
+	TokenType type = parser.previous.type;
+
+	ParseRule* rule = getRule(type);
+	parsePrecedence((Precedence)(rule->precedence + 1));
+
+	switch(type){
+
+		case  TOKEN_PLUS: emitByte(OP_ADD);
+		case  TOKEN_MINUS: emitByte(OP_SUBTRACT);
+		case  TOKEN_STAR: emitByte(OP_MULTIPLY);
+		case  TOKEN_SLASH: emitByte(OP_DIVIDE); 
+		case  TOKEN_GREATER: emitByte(OP_GREATER);
+		case  TOKEN_GREATER_EQUAL: emitByte(OP_GREATER_EQUAL);
+		case  TOKEN_LESS:  emitByte(OP_LESS);
+		case  TOKEN_LESS_GREATER: emitByte(OP_LESS_EQUAL);
+
+		default:
+		   return;
+	}
+
+}
+
+
 
 
 /*
@@ -207,21 +305,49 @@ ParseRule rules[] = {
 };
 
 
+
 static ParseRule* getRule(TokenType type){
 	return &rule[type];
 }
 
 
-static void parsePrecedence(Precedence precedence){
 
+
+/*
+Marka hore waxay compile gareeneysaa prefix opertors like: -1, !True
+hadii uu prefix precedence jirin waxay report gareyneysaa .
+prefix hadii uu jiro waa execute gareenaa
+
+kadib waxay u gudbeysaa infix operators like: +, -, *, /, <, >, <=, >= .
+
+*/
+static void parsePrecedence(Precedence precedence){
+	advance();
+	ParseRule* prefix = getRule(parser.previous.type)->prefix;
+
+	if (prefix == NULL){
+		error("expresion ayaa la rabaa");
+		return;
+	}
+
+	prefix();
+
+	while (precedence <= getRule(parser.current.type)->precedence) {
+ 		advance();
+ 		ParseFn infixRule = getRule(parser.previous.type)->infix;
+		 infixRule();
+ 	}
 
 }
+
 
 
 static void expression(){
 	// waxaan evaluate gareeneynaa expressions
 	parsePrecedence(PREC_ASSIGNMENT);
 }
+
+
 
 
 bool compile(char* source, Chunk* chunk){
