@@ -13,11 +13,45 @@ typedef struct{
 	bool hadError;
 	bool panicMode;
 
-
 }Parser;
 
 Parser parser;
+
 Chunk* compilingChunk;
+
+/* waxa uu ka koobanyahay precedence level.
+PREC_NONE has lower precedence marka lal barbar dhigo PREC_ASSIGNMENT.
+1. instruction hadii uu leeyahay higher precedence waxay
+	lamicno tahay, instruction ayaa laga hormarinaa instructions kale.
+2. instruction hadii uu leeyahy lower precedence waxay la micno tahay, instruction kani instructions higher precedence ga leh ayuu ka dambeenaa.
+*/
+typedef enum {
+ PREC_NONE,
+ PREC_ASSIGNMENT, // =
+ PREC_OR, // or
+ PREC_AND, // and
+ PREC_EQUALITY, // == !=
+ PREC_COMPARISON, // < > <= >=
+ PREC_TERM, // + -
+ PREC_FACTOR, // * /
+ PREC_UNARY, // ! -
+ PREC_CALL, // . ()
+ PREC_PRIMARY
+} Precedence;
+
+
+typedef void (*Parsefn)();
+
+/*
+parse Rule - waxa uu noo ogalaanaa sameeno table kasoo ka kooban rules.
+*/
+typedef struct{
+	parsefn prefix;
+	Parsefn infix;
+	Precedence precedence;
+
+}ParseRule;
+
 
 static Chunk* currentChunk(){
 	return compilingChunk;
@@ -112,6 +146,82 @@ static void endCompiler(){
 	emitReturn();
 }
 
+
+
+////////////////////
+// PRATT PARSING //
+//////////////////
+
+
+/*
+rules - waa table aan kusoo xusnay kor, kaaso naga saacidaayo
+inaa emit gareeno bytecode instruction iyadoo loo fiirinaayo: precedence and associativity.
+
+Example:
+@ TOKEN_MINUS - hadii uu token ka yahay minus waxay  tahay:
+	1. binary() - in minus ka  uu yahay kala jarka labo number like: 1 - 1;
+	2. unary() - in minus ka uu yahay number in laga dhigo mid negative ah like: -4;
+
+*/
+ParseRule rules[] = {
+ [TOKEN_LEFT_PAREN] = {grouping, NULL, PREC_NONE},
+ [TOKEN_RIGHT_PAREN] = {NULL, NULL, PREC_NONE},
+ [TOKEN_LEFT_BRACE] = {NULL, NULL, PREC_NONE}, 
+ [TOKEN_RIGHT_BRACE] = {NULL, NULL, PREC_NONE},
+ [TOKEN_COMMA] = {NULL, NULL, PREC_NONE},
+ [TOKEN_DOT] = {NULL, NULL, PREC_NONE},
+ [TOKEN_MINUS] = {unary, binary, PREC_TERM},
+ [TOKEN_PLUS] = {NULL, binary, PREC_TERM},
+ [TOKEN_SEMICOLON] = {NULL, NULL, PREC_NONE},
+ [TOKEN_SLASH] = {NULL, binary, PREC_FACTOR},
+ [TOKEN_STAR] = {NULL, binary, PREC_FACTOR},
+ [TOKEN_BANG] = {NULL, NULL, PREC_NONE},
+ [TOKEN_BANG_EQUAL] = {NULL, NULL, PREC_NONE},
+ [TOKEN_EQUAL] = {NULL, NULL, PREC_NONE},
+ [TOKEN_EQUAL_EQUAL] = {NULL, NULL, PREC_NONE},
+ [TOKEN_GREATER] = {NULL, NULL, PREC_NONE},
+ [TOKEN_GREATER_EQUAL] = {NULL, NULL, PREC_NONE},
+ [TOKEN_LESS] = {NULL, NULL, PREC_NONE},
+ [TOKEN_LESS_EQUAL] = {NULL, NULL, PREC_NONE},
+ [TOKEN_IDENTIFIER] = {NULL, NULL, PREC_NONE},
+ [TOKEN_STRING] = {NULL, NULL, PREC_NONE},
+ [TOKEN_NUMBER] = {number, NULL, PREC_NONE},
+ [TOKEN_AND] = {NULL, NULL, PREC_NONE},
+ [TOKEN_CLASS] = {NULL, NULL, PREC_NONE},
+ [TOKEN_ELSE] = {NULL, NULL, PREC_NONE},
+ [TOKEN_FALSE] = {NULL, NULL, PREC_NONE},
+ [TOKEN_FOR] = {NULL, NULL, PREC_NONE},
+ [TOKEN_FUN] = {NULL, NULL, PREC_NONE},
+ [TOKEN_IF] = {NULL, NULL, PREC_NONE},
+ [TOKEN_NIL] = {NULL, NULL, PREC_NONE},
+ [TOKEN_OR] = {NULL, NULL, PREC_NONE},
+ [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
+ [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
+ [TOKEN_SUPER] = {NULL, NULL, PREC_NONE},
+ [TOKEN_THIS] = {NULL, NULL, PREC_NONE},
+ [TOKEN_TRUE] = {NULL, NULL, PREC_NONE},
+ [TOKEN_VAR] = {NULL, NULL, PREC_NONE},
+ [TOKEN_WHILE] = {NULL, NULL, PREC_NONE},
+ [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
+ [TOKEN_EOF] = {NULL, NULL, PREC_NONE},
+};
+
+
+static ParseRule* getRule(TokenType type){
+	return &rule[type];
+}
+
+
+static void parsePrecedence(Precedence precedence){
+
+
+}
+
+
+static void expression(){
+	// waxaan evaluate gareeneynaa expressions
+	parsePrecedence(PREC_ASSIGNMENT);
+}
 
 
 bool compile(char* source, Chunk* chunk){
