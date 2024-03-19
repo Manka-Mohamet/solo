@@ -43,9 +43,11 @@ typedef enum{
 
 	OP_FALSE,
 	OP_TRUE,
-	OP_NULL,
+	OP_NIL,
 
 	OP_CONSTANT,
+
+	OP_PRINT,
 	OP_RETURN,
 
 

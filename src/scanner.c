@@ -232,19 +232,16 @@ static Token number(){
 static TokenType identifierType(){
 
 	int length = (int)(scanner.current - scanner.start);
-	TokenType type = TOKEN_IDENTIFIER;
 
 	for (Keyword* keyword = keywords; keyword->name != NULL; keyword++){
 	   // looking for is this reserved work or an identifier.
 		if(length == keyword->length && memcmp(scanner.start, keyword->name, length)){
-			type = keyword->type;
-			break;
+			return keyword->type;
 		}
-
 	}
 
 
-	return type;
+	return TOKEN_IDENTIFIER;
 }
 
 
@@ -261,11 +258,17 @@ static  Token identifier(){
 
 static void _scanTokens(){
 
-	char c = advance();
+     char c = advance();
 
-	if (isDigit(c)) writeToken(&array, number());
-	if (isAlpha(c)) writeToken(&array, identifier());
 
+     if (isDigit(c)){
+	//handling  numbers like: int, float.
+	writeToken(&array, number());
+
+      }if (isAlpha(c)){
+		// handling all identifiers like class, def, daabac variable names etc.
+		writeToken(&array, identifier());
+      }else{
 
 	switch (c){
 
@@ -309,12 +312,14 @@ static void _scanTokens(){
 	  case '\'': writeToken(&array, singleString()); break;
 
 
+		// hadii charecter kale lasoo galiyo like: ♡, |, 
+		// waxa uu report "invalid  charecter".
 	  defualt:
 		writeToken(&array, errorToken("Charcter aan la' aqoon"));
 		break;
 
 	}
-
+    }
 
 }
 
@@ -338,3 +343,4 @@ TokenArray*  scannToken(){
 	return &array;
 
 }
+

@@ -1,4 +1,4 @@
-## sola
+# sola
 
 sola is dynamicly typed scripting language,
 That uses somali keywords.
@@ -30,6 +30,7 @@ but i used stack based virtual machine
 If you want to run sola in you local machine.
 
 First clone the repository
+
 ```sh
 mkdir sola/
 cd sola
@@ -51,6 +52,7 @@ make
 It will generate bin directory,
 the you will need to add this bin folder to the path enviroment variable
 to access this binary everywhere
+
 ```sh
 export PATH=$PATH:bin/
 ```
@@ -65,14 +67,16 @@ Run this to generate the sola binary file
 
 ```sh
 cd sola
-gcc -Wall -Wextra -Werror -o sola -std=c11 src/*
+gcc -O3  -Wall -Wextra -Werror -o sola -std=c11 src/*
 ```
 
 create this folder
+
 ```sh
 mkdir bin/
 mv sola bin/
 ```
+
 Move the binary file to the bin/ directory
 then add the path of this bin/ directory add in the enviromental viriables,
 so that you can run the language where ever you want.
@@ -83,7 +87,7 @@ so that you can run the language where ever you want.
 sola langauge you can run in two ways 
 
 
-### Using REPL
+## Using REPL
 
 You can run sola using cli terminal, 
 to open the repl type this command to the terminal.
@@ -93,18 +97,44 @@ sola
 ```
 This opens the repl in the terminal where you can execute sola code line by line.
 
+## Sola Script Example
 
-### Using File
+create file named `main.sola` the sola script file must always have `.sola` extension.
+open your fav editor then write this script to the `main.sola`
 
-You can write the sola code in file that has extension `.sol`
-and the you can run the file using this command
+```py
+def test_sola(){
+   celi "Hello, world!";
 
-```sh
-sola  main.sol
-sola test.sol
+}
+
+
+daabac test_sola();
+
 ```
 
-### Thanks 
+## Using File
+
+
+and then  you can run the script file using this command.
+
+```sh
+sola  main.sola
+```
+
+and last it prints `Hello, world` to the terminal.
+
+
+
+## Docs
+
+the can read the documentation in the (docs)[].
+the documentation is a tutorial that teachs the fundamental programming langauges, remember this is intended for the beginers and the slow leaner.
+
+
+
+
+# Thanks 
 
 I want to thank many people who helped me learn compiler and language design knowing or not knowing.
 
@@ -117,12 +147,9 @@ His blog posts, papers and books he talked about different parsing techniques fo
 Thanks again for providing Free Educational Resources.
 
 
-# End
 
-You can learn the syntex of The language in doc/ directory.
+# End
 
 Also if you want to contribute and have fun adding features to this
 project you are welcome contact [A/Man](https://wa.link/0gaepx)
-and read [contribute guide](./CONTRIBUTING.md)
-
-In the End i am student at `Hormuud university` foculty of computer science and information technology.
+and read [contribute guide](./CONTRIBUTING.md).

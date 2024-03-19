@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "../include/value.h"
 #include "../include/memory.h"
@@ -34,9 +35,14 @@ void freeValueArray(ValueArray* array){
 
 
 void printValue(Value value){
-
 	switch(value.type){
-		//oupting values in the terminal
+	case BOOL:
+		printf(AS_BOOL(value)  ? "sax" : "qalad"); break;
+	case NIL:
+		printf("waxba"); break;
+	case NUMBER:
+		printf("%g", AS_NUMBER(value)); break;
+	case OBJ:
+		printf("hello object"); break;
 	}
-
 }

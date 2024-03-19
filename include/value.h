@@ -22,7 +22,7 @@ waxay isticmaaleynaa 8 macros si aan  sola value ugu badalno c struct.
 typedef enum{
 	NUMBER,
 	BOOL,
-	NILL,
+	NIL,
 	OBJ,
 
 }ValueType;
@@ -51,8 +51,8 @@ typedef struct{
 /*
  THESE MACROS - wxay numbers, booleans and null ku keydinaayaan 'Value Struct'
 */
-#define NUMBER_VAL(value)   ((Value){NUMBER, {.number value}})
-#define NIL_VAL             ((Value){NILL, {.number = 0}})
+#define NUMBER_VAL(value)   ((Value){NUMBER, {.number = value}})
+#define NIL_VAL             ((Value){NIL, {.number = 0}})
 #define BOOL_VAL(value)     ((Value){BOOL,  {.boolean = value}})
 
 
@@ -67,7 +67,7 @@ THESE MACROS - waxay qaadanaayaan 'Value Struct', kadib waxay soo return gareena
 THESE MACROS - waxay hubinaayaan 'Value Struct' loosoo baasay inuu type kiisa mid saxanyahay.
 */
 #define IS_BOOL(value)    ((value).type == BOOL)
-#define IS_NIL(value)     ((value).type == NILL)
+#define IS_NIL(value)     ((value).type == NIL)
 #define IS_NUMBER(value)  ((value).type == NUMBER)
 
 

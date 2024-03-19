@@ -3,6 +3,10 @@
 
 #include "../include/compiler.h"
 #include "../include/scanner.h"
+#include "../include/value.h"
+#include "../include/vm.h"
+#include "../include/chunk.h"
+
 
 
 typedef struct{
@@ -48,7 +52,7 @@ typedef void (*Parsefn)();
 parse Rule - waxa uu noo ogalaanaa sameeno table kasoo ka kooban rules.
 */
 typedef struct{
-	parsefn prefix;
+	Parsefn prefix;
 	Parsefn infix;
 	Precedence precedence;
 
@@ -73,15 +77,14 @@ static void errorAt(Token* token, char* message){
 
 	parser.panicMode = true;
 
-	printf("\033[0;31m");
-	fprintf(stderr, "[Line %d] Error", token->line);
+	fprintf(stderr, "[Line %d]  Error\n", token->line);
 
 	if(token->type == TOKEN_EOF){
-		fprintf(stderr, "dhamaadka file-ka");
+		fprintf(stderr, "file-ka dhamaadkiis");
 	}else if(token->type == TOKEN_ERROR){
 		// Nothing.
 	}else{
-	   fprintf(stderr, "waa  '%.*s'", token->length, token->start);
+	   fprintf(stderr, "waa  '%.*s'\n", token->length, token->start);
 	}
 
 }
@@ -138,6 +141,19 @@ static void consume(TokenType type, char* message){
 
 
 
+static bool check(TokenType type){
+	return parser.current.type == type;
+
+}
+
+
+
+static bool match(TokenType type){
+	if (!check(type)) return false;
+	advance();
+	return true;
+}
+
 
 
 ///////////////////////
@@ -170,32 +186,52 @@ static void endCompiler(){
 static void expression();
 static ParseRule* getRule(TokenType type);
 static void parsePrecedence(Precedence precedence);
+static void declaration();
+static void statement();
 
-
-static uint8_t makeConstant(double value){
+static uint8_t makeConstant(Value value){
 	int constant = addConstant(currentChunk(), value);
 	if (constant > UINT8_MAX){
 		error("Too many constants in one chunk");
-		return;
+		return 0;
 	}
 
 	return (uint8_t)constant;
 }
 
+
+
 /*
 emitting constant values.
 */
-static void emitConstant(double value){
+static void emitConstant(Value value){
 	emitByte(OP_CONSTANT);
 	emitByte(makeConstant(value));
 }
 
 
+
+
 static void number(){
 	// marka hore value waxaa u bedeleynaa double type.
 	double value = strtod(parser.previous.start, NULL);
-	emitConstant(value);
+	emitConstant(NUMBER_VAL(value));
 }
+
+static void literal(){
+	TokenType type = parser.previous.type;
+
+	switch(type){
+		case TOKEN_TRUE: emitByte(OP_TRUE);break;
+		case TOKEN_FALSE: emitByte(OP_FALSE);break;
+		case TOKEN_NIL: emitByte(OP_NIL);break;
+
+		default:
+		  return;
+	}
+
+}
+
 
 
 
@@ -207,6 +243,7 @@ static void grouping(){
 
 
 
+
 static void unary(){
 	TokenType type = parser.previous.type;
 	parsePrecedence(PREC_UNARY);
@@ -214,12 +251,14 @@ static void unary(){
 
 	switch(type){
 
-		case TOKEN_MINUS: emitByte(OP_NEGATE);
+		case TOKEN_MINUS: emitByte(OP_NEGATE);break;
+		case TOKEN_BANG: emitByte(OP_NOT);break;
 		default:
 		    return;
 	}
 
 }
+
 
 
 
@@ -233,14 +272,16 @@ static void binary(){
 
 	switch(type){
 
-		case  TOKEN_PLUS: emitByte(OP_ADD);
-		case  TOKEN_MINUS: emitByte(OP_SUBTRACT);
-		case  TOKEN_STAR: emitByte(OP_MULTIPLY);
-		case  TOKEN_SLASH: emitByte(OP_DIVIDE); 
-		case  TOKEN_GREATER: emitByte(OP_GREATER);
-		case  TOKEN_GREATER_EQUAL: emitByte(OP_GREATER_EQUAL);
-		case  TOKEN_LESS:  emitByte(OP_LESS);
-		case  TOKEN_LESS_GREATER: emitByte(OP_LESS_EQUAL);
+		case  TOKEN_PLUS: emitByte(OP_ADD);break;
+		case  TOKEN_MINUS: emitByte(OP_SUBTRACT);break;
+		case  TOKEN_STAR: emitByte(OP_MULTIPLY);break;
+		case  TOKEN_SLASH: emitByte(OP_DIVIDE); break;
+
+		case  TOKEN_EQUAL_EQUAL: emitByte(OP_EQUAL); break;
+		case  TOKEN_GREATER: emitByte(OP_GREATER);break;
+		case  TOKEN_GREATER_EQUAL: emitByte(OP_GREATER_EQUAL);break;
+		case  TOKEN_LESS:  emitByte(OP_LESS);break;
+		case  TOKEN_LESS_EQUAL: emitByte(OP_LESS_EQUAL);break;
 
 		default:
 		   return;
@@ -274,30 +315,30 @@ ParseRule rules[] = {
  [TOKEN_SLASH] = {NULL, binary, PREC_FACTOR},
  [TOKEN_STAR] = {NULL, binary, PREC_FACTOR},
  [TOKEN_BANG] = {NULL, NULL, PREC_NONE},
- [TOKEN_BANG_EQUAL] = {NULL, NULL, PREC_NONE},
+ [TOKEN_BANG_EQUAL] = {NULL, binary, PREC_NONE},
  [TOKEN_EQUAL] = {NULL, NULL, PREC_NONE},
- [TOKEN_EQUAL_EQUAL] = {NULL, NULL, PREC_NONE},
- [TOKEN_GREATER] = {NULL, NULL, PREC_NONE},
- [TOKEN_GREATER_EQUAL] = {NULL, NULL, PREC_NONE},
- [TOKEN_LESS] = {NULL, NULL, PREC_NONE},
- [TOKEN_LESS_EQUAL] = {NULL, NULL, PREC_NONE},
+ [TOKEN_EQUAL_EQUAL] = {NULL, binary,  PREC_NONE},
+ [TOKEN_GREATER] = {NULL, binary, PREC_NONE},
+ [TOKEN_GREATER_EQUAL] = {NULL, binary, PREC_NONE},
+ [TOKEN_LESS] = {NULL, binary, PREC_NONE},
+ [TOKEN_LESS_EQUAL] = {NULL, binary, PREC_NONE},
  [TOKEN_IDENTIFIER] = {NULL, NULL, PREC_NONE},
  [TOKEN_STRING] = {NULL, NULL, PREC_NONE},
  [TOKEN_NUMBER] = {number, NULL, PREC_NONE},
  [TOKEN_AND] = {NULL, NULL, PREC_NONE},
  [TOKEN_CLASS] = {NULL, NULL, PREC_NONE},
  [TOKEN_ELSE] = {NULL, NULL, PREC_NONE},
- [TOKEN_FALSE] = {NULL, NULL, PREC_NONE},
+ [TOKEN_FALSE] = {literal, NULL, PREC_NONE},
  [TOKEN_FOR] = {NULL, NULL, PREC_NONE},
  [TOKEN_FUN] = {NULL, NULL, PREC_NONE},
  [TOKEN_IF] = {NULL, NULL, PREC_NONE},
  [TOKEN_NIL] = {NULL, NULL, PREC_NONE},
- [TOKEN_OR] = {NULL, NULL, PREC_NONE},
+ [TOKEN_OR] = {literal, NULL, PREC_NONE},
  [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
  [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
  [TOKEN_SUPER] = {NULL, NULL, PREC_NONE},
  [TOKEN_THIS] = {NULL, NULL, PREC_NONE},
- [TOKEN_TRUE] = {NULL, NULL, PREC_NONE},
+ [TOKEN_TRUE] = {literal, NULL, PREC_NONE},
  [TOKEN_VAR] = {NULL, NULL, PREC_NONE},
  [TOKEN_WHILE] = {NULL, NULL, PREC_NONE},
  [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
@@ -307,7 +348,7 @@ ParseRule rules[] = {
 
 
 static ParseRule* getRule(TokenType type){
-	return &rule[type];
+	return &rules[type];
 }
 
 
@@ -323,7 +364,7 @@ kadib waxay u gudbeysaa infix operators like: +, -, *, /, <, >, <=, >= .
 */
 static void parsePrecedence(Precedence precedence){
 	advance();
-	ParseRule* prefix = getRule(parser.previous.type)->prefix;
+	Parsefn prefix = getRule(parser.previous.type)->prefix;
 
 	if (prefix == NULL){
 		error("expresion ayaa la rabaa");
@@ -334,7 +375,7 @@ static void parsePrecedence(Precedence precedence){
 
 	while (precedence <= getRule(parser.current.type)->precedence) {
  		advance();
- 		ParseFn infixRule = getRule(parser.previous.type)->infix;
+ 		Parsefn infixRule = getRule(parser.previous.type)->infix;
 		 infixRule();
  	}
 
@@ -349,6 +390,32 @@ static void expression(){
 
 
 
+static void printStatement(){
+	expression();
+	consume(TOKEN_SEMICOLON, "semicolon ';' ayaa lagaa rabaa 'daabac' kadib");
+	emitByte(OP_PRINT);
+
+}
+
+
+
+static void statement(){
+	if (match(TOKEN_PRINT)){
+		printStatement();
+	}else{
+		expression();
+	}
+
+
+}
+
+
+
+static void declaration(){
+	statement();
+}
+
+
 
 bool compile(char* source, Chunk* chunk){
 	initScanner(source);
@@ -360,8 +427,12 @@ bool compile(char* source, Chunk* chunk){
 
 	tokenIndex = scannToken()->tokens;
 	advance();
-	//expresion();
-	consume(TOKEN_EOF, "expression-ka inay dhamaato ayaa la filaa");
+
+
+	while (!match(TOKEN_EOF)){
+		declaration();
+	}
+
 
 	endCompiler();
 
