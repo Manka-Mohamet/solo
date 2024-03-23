@@ -16,7 +16,7 @@ in the `vm` to produce the result.
 ## Virtual Machine(VM)
 
 Definition of `virtual machine` is a program that emulates 
-and acts as `cpu` to trick the programs that it's the actual cpu.
+and acts as `cpu` to trick other programs that he is the actual cpu.
 
 There are different ways to implement a virtual machine,
 but i used stack based virtual machine 
@@ -40,24 +40,46 @@ git clone https://github.com/Betricks/sola.git
 
 When the repository is cloned or downloaded in local device, 
 
-Then if you are using linux, windows  and macOs  you can run this command to automate the compilation process.
+Then if you are using linux, windows  and macOs  you can run this command to automate and build binary files that is needed.
 
 ```sh
 make
 ```
 
 It will generate `bin/`  directory,
-the you will need to add this bin folder to the path enviroment variable to access this binary everywhere
+then you will need to add this bin folder to the path enviroment variable to access this binary everywhere.
+
+##### in linux
 
 ```sh
 export PATH=$PATH:bin/
 ```
+##### in windows
 
-### Linux and Windows 
+1. click the Start menu.
 
-When you clonne the repository you will need to install `c compiler`,
-The most famous c compiler is `gcc` i recomend you to use this one.
-But you can you use your favorite compiler.
+1. click Properties, In the System Properties dialog box, 
+
+1. click the Advanced tab.
+
+1. click Environment Variables.
+In the top list, scroll down to the PATH variable, select it, 
+
+1. and click New and enter PATH for the Variable Name.
+
+1. click OK to close each dialog box.
+
+### Executing on your own
+
+if you want to excute the c files on your own. 
+
+there are many c compiler you can use the build the binary file.
+
+the two most used c compilers are `llvm` and `gcc`.
+
+You will need to install `c compiler`,
+The favourite c compiler is `gcc` i recomend you to use this one.
+But you can you use what compiler that you like.
 
 Run this to generate the solo binary file
 
@@ -85,18 +107,21 @@ solo langauge you can run in two ways
 ## Using REPL
 
 You can run solo using cli terminal, 
-to open the repl type this command to the terminal.
+to open the repl.
+
+type this command to the terminal.
 
 ```sh
 solo
 ```
 
-This opens the repl in the terminal where you can execute solo code line by line.
+This opens the solo repl in the terminal where you can execute solo code line by line.
 
-## Solo Script Example
+## Solo Script
 
 create file named `main.solo` the solo script file must always have `.solo` extension.
-open your fav editor then write this script to the `main.solo`
+
+open your fav editor then write this script to the `main.solo`.
 
 ```py
 def test(){
@@ -110,7 +135,6 @@ test();
 
 ## Using File
 
-
 and then  you can run the script file using this command.
 
 ```sh
@@ -123,8 +147,8 @@ and last it prints `Hello,  world` to the terminal.
 
 ## Docs
 
-the can read the documentation in the (docs)[].
-the documentation is a tutorial that teachs the fundamental programming langauges, remember this is intended for the beginers and the slow leaner.
+you can read the documentation in the (docs)[].
+the documentation is a tutorial that teachs the fundamental programming langauges, remember this is intended for the beginers, if you know the concepts mentioned you can skipped it.
 
 
 
