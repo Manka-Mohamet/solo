@@ -36,26 +36,24 @@ git clone https://github.com/Betricks/sola.git
 ```
 
 
-### Linux
+### build
 
 When the repository is cloned or downloaded in local device, 
 
-Then if you are using linux 
-you can run this command to automate the compilation process.
+Then if you are using linux, windows  and macOs  you can run this command to automate the compilation process.
 
 ```sh
 make
 ```
 
-It will generate bin directory,
-the you will need to add this bin folder to the path enviroment variable
-to access this binary everywhere
+It will generate `bin/`  directory,
+the you will need to add this bin folder to the path enviroment variable to access this binary everywhere
 
 ```sh
 export PATH=$PATH:bin/
 ```
 
-### Windows 
+### Linux and Windows 
 
 When you clonne the repository you will need to install `c compiler`,
 The most famous c compiler is `gcc` i recomend you to use this one.
@@ -65,7 +63,7 @@ Run this to generate the solo binary file
 
 ```sh
 cd solo
-gcc -O3  -Wall -Wextra -Werror -o solo -std=c11 src/*
+gcc -O3  -Wall -Wextra -Werror -ggdb -o solo  src/*
 ```
 
 create this folder
@@ -75,9 +73,8 @@ mkdir bin/
 mv solo bin/
 ```
 
-Move the binary file to the bin/ directory
-then add the path of this bin/ directory add in the enviromental viriables,
-so that you can run the language where ever you want.
+Move the binary file to the `bin/` directory
+then add the path of this `bin/` directory add in the enviromental viriables, so that you can run the language where ever you want.
 
 
 # Getting Start
@@ -93,6 +90,7 @@ to open the repl type this command to the terminal.
 ```sh
 solo
 ```
+
 This opens the repl in the terminal where you can execute solo code line by line.
 
 ## Solo Script Example
@@ -116,7 +114,7 @@ test();
 and then  you can run the script file using this command.
 
 ```sh
-solo main.sola
+solo main.solo
 ```
 
 and last it prints `Hello,  world` to the terminal.
