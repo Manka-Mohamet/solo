@@ -78,7 +78,7 @@ there are many c compiler you can use the build the binary file.
 the two most used c compilers are `llvm` and `gcc`.
 
 You will need to install `c compiler`,
-The favourite c compiler is `gcc` i recomend you to use this one.
+My favourite c compiler is `gcc` i recomend you to use this one.
 But you can you use what compiler that you like.
 
 Run this to generate the solo binary file
@@ -157,7 +157,7 @@ the documentation is a tutorial that teachs the fundamental programming langauge
 
 I want to thank many people who helped me learn compiler and language design knowing or not knowing.
 
-One of them is Language Engineer ``Robert Nystrom`` Who is one of the  engineers who is working at google to designed and created dart` language, he also created many languages on his own, 
+One of them is Language Engineer ``Robert Nystrom`` Who is one of the  engineers who is working at google to designed and created dart language, he also created many languages on his own, 
 
 One of The fun languages that  ``Robert Nystrom`` created is [wren](https://wren.io/).
 
