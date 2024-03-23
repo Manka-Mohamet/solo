@@ -32,9 +32,8 @@ First clone the repository
 ```sh
 mkdir sola/
 cd solo
-git clone https://github.com/Betricks/sola.git
+git clone https://github.com/Manka-Mohamet/solo.git
 ```
-
 
 ### build
 
