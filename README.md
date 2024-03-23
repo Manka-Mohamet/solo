@@ -147,7 +147,9 @@ and last it prints `Hello,  world` to the terminal.
 ## Docs
 
 you can read the documentation in the (docs)[].
-the documentation is a tutorial that teachs the fundamental programming langauges, remember this is intended for the beginers, if you know the concepts mentioned you can skipped it.
+the documentation is a tutorial that teachs the fundamental programming langauges.
+
+> remember this is intended for the beginers, if you know the concepts mentioned you can skipped it.
 
 
 
