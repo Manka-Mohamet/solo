@@ -147,7 +147,7 @@ and last it prints `Hello,  world` to the terminal.
 ## Docs
 
 you can read the documentation in the (docs)[].
-the documentation is a tutorial that teachs the fundamental programming langauges.
+the documentation is a tutorial that teachs programming fundamentals.
 
 > remember this is intended for the beginers, if you know the concepts mentioned you can skipped it.
 
@@ -158,11 +158,13 @@ the documentation is a tutorial that teachs the fundamental programming langauge
 
 I want to thank many people who helped me learn compiler and language design knowing or not knowing.
 
-One of them is Language Engineer ``Robert Nystrom`` Who is one of the  engineers who is working at google to designed and created dart language, he also created many languages on his own, 
+One of them is Language Engineer ``Robert Nystrom`` Who is one of the  engineers who is working at google to designed and created dart language, he also created many languages on his own.
+
 
 One of The fun languages that  ``Robert Nystrom`` created is [wren](https://wren.io/).
 
 His blog posts, papers and books he talked about different parsing techniques for generating ASTs and bytecode.
+
 
 Thanks again for providing Free Educational Resources.
 
