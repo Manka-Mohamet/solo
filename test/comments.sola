@@ -1,0 +1,14 @@
+# the comments are working on sola
+
+# the sola language only has single line comment
+
+# there is no multi line comments
+
+# you make comment by adding the 'hash simple' at the begining of the script line.
+
+# if you want to add multi line comments in to the langauge please provide the simple that 
+# like to use:
+	# 1. c family multi line comment: /* content */
+	# 2. python multi line comment or doc string: """ content """
+
+# the end.

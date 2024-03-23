@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "../include/vm.h"
 
@@ -9,6 +10,7 @@ static void _runRepl(){
 
 	printf("sola is dynamicly typed scripting language based on somali words\n");
 	printf("running on Linux at 3/3/2024 22:30\n");
+	printf("write  \"kabax\" if you want to exit the program.\n");
 
 	char line[1024];
 	for(;;){
@@ -16,6 +18,10 @@ static void _runRepl(){
 		if (!fgets(line, sizeof(line), stdin)){
 			printf("\n");
 			break;
+		}
+
+		if ( strcmp(line, "kabax\n") == 0 ){
+			exit(0);
 		}
 
 		interpret(line);

@@ -22,6 +22,7 @@ typedef struct{
 Parser parser;
 
 Chunk* compilingChunk;
+TokenArray tokArray;
 
 
 /* waxa uu ka koobanyahay precedence level.
@@ -84,9 +85,11 @@ static void errorAt(Token* token, char* message){
 	}else if(token->type == TOKEN_ERROR){
 		// Nothing.
 	}else{
-	   fprintf(stderr, "waa  '%.*s'\n", token->length, token->start);
+	   fprintf(stderr, "waa '%.*s'\n", token->length, token->start);
 	}
 
+	fprintf(stderr, "%s\n", message);
+	parser.hadError = true;
 }
 
 
@@ -110,14 +113,14 @@ static void error(char* message){
 //////////////////////
 //HELPER FUNCTIONA///
 ////////////////////
-Token* tokenIndex = NULL;
-
 static void advance(){
 	parser.previous = parser.current;
 
+
 	for(;;){
 
-	   parser.current =  *tokenIndex++;
+	   parser.current =   *tokArray.tokens;
+	   tokArray.tokens++;
 
 	   if (parser.current.type != TOKEN_ERROR) break;
 
@@ -189,6 +192,7 @@ static void parsePrecedence(Precedence precedence);
 static void declaration();
 static void statement();
 
+
 static uint8_t makeConstant(Value value){
 	int constant = addConstant(currentChunk(), value);
 	if (constant > UINT8_MAX){
@@ -217,6 +221,8 @@ static void number(){
 	double value = strtod(parser.previous.start, NULL);
 	emitConstant(NUMBER_VAL(value));
 }
+
+
 
 static void literal(){
 	TokenType type = parser.previous.type;
@@ -334,7 +340,7 @@ ParseRule rules[] = {
  [TOKEN_IF] = {NULL, NULL, PREC_NONE},
  [TOKEN_NIL] = {NULL, NULL, PREC_NONE},
  [TOKEN_OR] = {literal, NULL, PREC_NONE},
- [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
+ [TOKEN_PRINT] = {printStatement, NULL, PREC_NONE},
  [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
  [TOKEN_SUPER] = {NULL, NULL, PREC_NONE},
  [TOKEN_THIS] = {NULL, NULL, PREC_NONE},
@@ -423,9 +429,9 @@ bool compile(char* source, Chunk* chunk){
 	parser.panicMode = false;
 	parser.hadError = true;
 
+	tokArray = scannToken();
 	compilingChunk = chunk;
 
-	tokenIndex = scannToken()->tokens;
 	advance();
 
 

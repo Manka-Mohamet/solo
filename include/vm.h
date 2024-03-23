@@ -3,8 +3,8 @@
   kasoo execute gareenaayo each bytecode instruction one by one.
 */
 
-#ifndef sola_vm_h
-#define sola_vm_h
+#ifndef solo_vm_h
+#define solo_vm_h
 
 #include "chunk.h"
 #include "value.h"

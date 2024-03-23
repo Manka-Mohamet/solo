@@ -4,9 +4,9 @@ This repository is an opensource, You can contribute by forking
 or clonning The repository into you local Machine.
 
 After forked the repository and added new Features to the project Send a pull request
-and Explain the new features that you added.
+and Explain the new features that you  added.
 
-After that we will accept your pull request and Merge your fork to the main repository.
+After that we will accept your pull request and Merge your fork to  the main repository.
 
 ### Packages
 
@@ -34,4 +34,5 @@ This is The Main features or Functionality that you can add to the language:
 # End
 
 You can build Other Usefull Packages on top of this language.
+
 

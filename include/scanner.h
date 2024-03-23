@@ -1,5 +1,5 @@
-#ifndef sola_scanner_h
-#define sola_scanner_h
+#ifndef solo_scanner_h
+#define solo_scanner_h
 
 /*
 
@@ -100,7 +100,7 @@ void freeToken(TokenArray* array);
 void initScanner(char* source);
 
 
-TokenArray* scannToken();
+TokenArray scannToken();
 
 
 #endif

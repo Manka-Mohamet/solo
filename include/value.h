@@ -5,8 +5,8 @@ u keedinayno constant values like: numbers, boolean, string etc.
 waxay isticmaaleynaa 8 macros si aan  sola value ugu badalno c struct.
 */
 
-#ifndef sola_value_h
-#define sola_value_h
+#ifndef solo_value_h
+#define solo_value_h
 
 #include "common.h"
 

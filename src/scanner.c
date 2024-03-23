@@ -25,6 +25,12 @@ void initScanner(char* source){
 
 }
 
+static void initToken(TokenArray* array){
+	array->count = 0;
+	array->capacity = 0;
+	array->tokens = NULL;
+}
+
 
 
 void writeToken(TokenArray* array, Token token){
@@ -44,9 +50,7 @@ void writeToken(TokenArray* array, Token token){
 void freeToken(TokenArray* array){
 
 	FREE_ARRAY(Token, array->tokens, array->capacity);
-	array->count = 0;
-	array->capacity = 0;
-	array->tokens = NULL;
+	initToken(array);
 }
 
 
@@ -146,6 +150,16 @@ static char advance(){
 
 }
 
+
+
+static void comments(){
+	while (peek() != '\n'){
+		advance();
+	}
+	scanner.line++;
+	advance();
+
+}
 
 
 
@@ -264,60 +278,57 @@ static void _scanTokens(){
      if (isDigit(c)){
 	//handling  numbers like: int, float.
 	writeToken(&array, number());
+	return;
 
       }if (isAlpha(c)){
 		// handling all identifiers like class, def, daabac variable names etc.
 		writeToken(&array, identifier());
+		return;
       }else{
 
 	switch (c){
 
 		//single charecter tokens
-	   case '(':  writeToken(&array,  createToken(TOKEN_LEFT_PAREN));
-	   case ')':  writeToken(&array, createToken(TOKEN_RIGHT_PAREN));
-	   case '{':  writeToken(&array,  createToken(TOKEN_LEFT_BRACE));
-	   case '}':  writeToken(&array,  createToken(TOKEN_RIGHT_BRACE));
-	   case ';':  writeToken(&array,  createToken(TOKEN_SEMICOLON));
-	   case ',':  writeToken(&array,  createToken(TOKEN_COMMA));
-	   case '.':  writeToken(&array,  createToken(TOKEN_DOT));
-	   case '-':  writeToken(&array,  createToken(TOKEN_MINUS));
-	   case '+':  writeToken(&array,  createToken(TOKEN_PLUS));
-	   case '*':  writeToken(&array,  createToken(TOKEN_STAR));
-	   case '/':  writeToken(&array,  createToken(TOKEN_SLASH));
+	   case '(':  writeToken(&array,  createToken(TOKEN_LEFT_PAREN));return;
+	   case ')':  writeToken(&array, createToken(TOKEN_RIGHT_PAREN)); return;
+	   case '{':  writeToken(&array,  createToken(TOKEN_LEFT_BRACE)); return;
+	   case '}':  writeToken(&array,  createToken(TOKEN_RIGHT_BRACE)); return;
+	   case ';':  writeToken(&array,  createToken(TOKEN_SEMICOLON)); return;
+	   case ',':  writeToken(&array,  createToken(TOKEN_COMMA)); return;
+	   case '.':  writeToken(&array,  createToken(TOKEN_DOT)); return;
+	   case '-':  writeToken(&array,  createToken(TOKEN_MINUS)); return;
+	   case '+':  writeToken(&array,  createToken(TOKEN_PLUS)); return;
+	   case '*':  writeToken(&array,  createToken(TOKEN_STAR)); return;
+	   case '/':  writeToken(&array,  createToken(TOKEN_SLASH)); return;
 
 
 
 		// one or two charecters
-	   case '!': writeToken(&array, createToken(match('=') ? TOKEN_BANG_EQUAL :  TOKEN_BANG));
-	   case '=': writeToken(&array, createToken(match('=') ? TOKEN_EQUAL_EQUAL :  TOKEN_EQUAL));
-	   case '<': writeToken(&array, createToken(match('=') ? TOKEN_LESS_EQUAL :  TOKEN_LESS));
-	   case '>': writeToken(&array, createToken(match('=') ? TOKEN_GREATER_EQUAL :  TOKEN_GREATER));
-
+	   case '!': writeToken(&array, createToken(match('=') ? TOKEN_BANG_EQUAL :  TOKEN_BANG)); return;
+	   case '=': writeToken(&array, createToken(match('=') ? TOKEN_EQUAL_EQUAL :  TOKEN_EQUAL)); return;
+	   case '<': writeToken(&array, createToken(match('=') ? TOKEN_LESS_EQUAL :  TOKEN_LESS));  return;
+	   case '>': writeToken(&array, createToken(match('=') ? TOKEN_GREATER_EQUAL :  TOKEN_GREATER)); return;
 
 		// whitespacess, tab, newlines and comments
 	  case '\n': {
 		scanner.line++;
 		advance();
-		break;
+		return;
 	 }
-
-
-	  case '\t': advance(); break;
-	  case ' ':  advance(); break;
-	  case '\r': advance(); break;
-
+	  case '\t': advance(); return;
+	  case ' ':  advance(); return;
+	  case '\r': advance(); return;
+	  case '#': comments(); break;
 
 		// literals :  string, number, identifier
-	  case '"': writeToken(&array, doubleString()); break;
-	  case '\'': writeToken(&array, singleString()); break;
-
+	  case '"': writeToken(&array, doubleString()); return;
+	  case '\'': writeToken(&array, singleString()); return;
 
 		// hadii charecter kale lasoo galiyo like: ♡, |, 
 		// waxa uu report "invalid  charecter".
-	  defualt:
-		writeToken(&array, errorToken("Charcter aan la' aqoon"));
-		break;
-
+	  default:
+		writeToken(&array, errorToken("Charcter aan la' aqoon\n"));
+		return;
 	}
     }
 
@@ -326,21 +337,19 @@ static void _scanTokens(){
 
 
 
-TokenArray*  scannToken(){
-
-	array.count = 0;
-	array.capacity = 0;
-	array.tokens = NULL;
+TokenArray scannToken(){
+	initToken(&array);
 
 	while (!isAtEnd()){
 		_scanTokens();
 
 	}
 
+
 	Token token = createToken(TOKEN_EOF);
 	writeToken(&array, token);
 
-	return &array;
+	return array;
 
 }
 

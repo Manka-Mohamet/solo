@@ -6,6 +6,7 @@ void initChunk(Chunk* chunk){
 	chunk->length = 0;
 	chunk->capacity = 0;
 	chunk->bytecode = NULL;
+	chunk->lines = NULL;
 	initValueArray(&chunk->constants);
 }
 
@@ -37,7 +38,7 @@ void freeChunk(Chunk* chunk){
 	FREE_ARRAY(uint8_t, chunk->bytecode, chunk->capacity);
 	FREE_ARRAY(int, chunk->lines, chunk->capacity);
 	freeValueArray(&chunk->constants);
-
+	initChunk(chunk);
 
 }
 

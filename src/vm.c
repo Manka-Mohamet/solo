@@ -51,10 +51,11 @@ Value pop(){
 
 }
 
+/*
 static bool stackEmpty(){
 	return vm.length <= 0;
 }
-
+*/
 
 static Value peek(int distance){
 	return vm.stackTop[-1 - distance];

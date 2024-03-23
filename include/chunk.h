@@ -7,8 +7,8 @@ waxaa jira different way eeloo represent gareeyo language waxaa kamid ah:
 */
 
 
-#ifndef sola_chunk_h
-#define sola_chunk_h
+#ifndef solo_chunk_h
+#define solo_chunk_h
 
 #include "common.h"
 #include "value.h"

@@ -1,21 +1,19 @@
-# sola
+# solo
 
-sola is dynamicly typed scripting language,
+solo is dynamicly typed scripting language,
 That uses somali keywords.
-
-sola is short for somali language and it is project
-i started when i was learning compiler and language design.
+this project started when i was learning compiler and language design.
 
 
 ## Some Background
 
-sola is written in `c`, and it compiles to custom `bytecode`,
+solo is written in `c`, and it compiles to custom `bytecode`,
 and immediately executes or runs that bytecode 
 in the `vm` to produce the result.
 
 
 
-## Virtual Machine VM
+## Virtual Machine(VM)
 
 Definition of `virtual machine` is a program that emulates 
 and acts as `cpu` to trick the programs that it's the actual cpu.
@@ -27,13 +25,13 @@ but i used stack based virtual machine
 
 # Installation
 
-If you want to run sola in you local machine.
+If you want to run solo in you local machine.
 
 First clone the repository
 
 ```sh
 mkdir sola/
-cd sola
+cd solo
 git clone https://github.com/Betricks/sola.git
 ```
 
@@ -63,18 +61,18 @@ When you clonne the repository you will need to install `c compiler`,
 The most famous c compiler is `gcc` i recomend you to use this one.
 But you can you use your favorite compiler.
 
-Run this to generate the sola binary file
+Run this to generate the solo binary file
 
 ```sh
-cd sola
-gcc -O3  -Wall -Wextra -Werror -o sola -std=c11 src/*
+cd solo
+gcc -O3  -Wall -Wextra -Werror -o solo -std=c11 src/*
 ```
 
 create this folder
 
 ```sh
 mkdir bin/
-mv sola bin/
+mv solo bin/
 ```
 
 Move the binary file to the bin/ directory
@@ -84,32 +82,31 @@ so that you can run the language where ever you want.
 
 # Getting Start
 
-sola langauge you can run in two ways 
+solo langauge you can run in two ways 
 
 
 ## Using REPL
 
-You can run sola using cli terminal, 
+You can run solo using cli terminal, 
 to open the repl type this command to the terminal.
 
 ```sh
-sola
+solo
 ```
-This opens the repl in the terminal where you can execute sola code line by line.
+This opens the repl in the terminal where you can execute solo code line by line.
 
-## Sola Script Example
+## Solo Script Example
 
-create file named `main.sola` the sola script file must always have `.sola` extension.
-open your fav editor then write this script to the `main.sola`
+create file named `main.solo` the solo script file must always have `.solo` extension.
+open your fav editor then write this script to the `main.solo`
 
 ```py
-def test_sola(){
-   celi "Hello, world!";
+def test(){
+   daabac "Hello, world!";
 
 }
 
-
-daabac test_sola();
+test();
 
 ```
 
@@ -119,10 +116,10 @@ daabac test_sola();
 and then  you can run the script file using this command.
 
 ```sh
-sola  main.sola
+solo main.sola
 ```
 
-and last it prints `Hello, world` to the terminal.
+and last it prints `Hello,  world` to the terminal.
 
 
 
@@ -138,7 +135,7 @@ the documentation is a tutorial that teachs the fundamental programming langauge
 
 I want to thank many people who helped me learn compiler and language design knowing or not knowing.
 
-One of them is Language Engineer ``Robert Nystrom`` Who is one of the  engineers who is working at google to designed and created `dart` language, he also created many languages on his own, 
+One of them is Language Engineer ``Robert Nystrom`` Who is one of the  engineers who is working at google to designed and created dart` language, he also created many languages on his own, 
 
 One of The fun languages that  ``Robert Nystrom`` created is [wren](https://wren.io/).
 
@@ -151,5 +148,5 @@ Thanks again for providing Free Educational Resources.
 # End
 
 Also if you want to contribute and have fun adding features to this
-project you are welcome contact [A/Man](https://wa.link/0gaepx)
+project you are welcome  contact [A/Man](https://wa.link/0gaepx)
 and read [contribute guide](./CONTRIBUTING.md).
