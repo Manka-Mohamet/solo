@@ -178,6 +178,11 @@ static Token errorToken(char* message){
 
 
 
+static void unknownChar(){
+	fprintf("charecter aan la aqoon.\n");
+	exit(66);
+}
+
 
 static Token createToken(TokenType type){
         Token token;
@@ -327,8 +332,8 @@ static void _scanTokens(){
 		// hadii charecter kale lasoo galiyo like: ♡, |, 
 		// waxa uu report "invalid  charecter".
 	  default:
-		writeToken(&array, errorToken("Charcter aan la' aqoon\n"));
-		return;
+		unknownChar();
+		break;
 	}
     }
 

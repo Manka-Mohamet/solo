@@ -34,6 +34,19 @@ void freeValueArray(ValueArray* array){
 }
 
 
+void printObject(Value value)
+{
+
+	switch(value.type)
+	{
+		case OBJ_STRING: printf("%s", AS_CSTRING(value)); break;
+
+	}
+
+}
+
+
+
 void printValue(Value value){
 	switch(value.type){
 	case BOOL:
@@ -43,6 +56,6 @@ void printValue(Value value){
 	case NUMBER:
 		printf("%g", AS_NUMBER(value)); break;
 	case OBJ:
-		printf("hello object"); break;
-	}
+		print0bject(value);
+		break;
 }

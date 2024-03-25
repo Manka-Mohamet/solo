@@ -1,15 +1,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
+#include <math.h>
+
 
 #include "../include/value.h"
 #include "../include/vm.h"
 #include "../include/memory.h"
 #include "../include/chunk.h"
 #include "../include/compiler.h"
+#include "../include/object.h"
 
 
 VM vm;
+
 
 static void resetStack(){
 	freeStack(&vm);
@@ -57,22 +62,79 @@ static bool stackEmpty(){
 }
 */
 
-static Value peek(int distance){
+static Value peek(int distance)
+{
 	return vm.stackTop[-1 - distance];
 }
 
-static bool valuesEqual(Value a,  Value b){
+
+static bool valuesEqual(Value a,  Value b)
+{
 	if (a.type !=  b.type) return false;
 
-	switch(a.type){
+	switch(a.type)
+	{
 		case BOOL: return AS_BOOL(a) == AS_BOOL(b); break;
 		case NIL:  return true;
 		case NUMBER: return AS_NUMBER(a) == AS_NUMBER(b); break;
+		case OBJ:
+		{
+		   ObjString* astring = AS_STRING(a);
+		   ObjString* bstring = AS_STRING(b);
+		   return astring->length == bstring->length && memcmp(astring->chars, bstring->chars, astring->length) == 0;
+		}
 		default:
 		  return false;
 	}
 
 }
+
+
+
+static void mulString(){
+	int times = round(AS_NUMBER(pop()));
+	char* string = AS_CSTRING(pop());
+
+	char* chars = malloc(strlen(string)  * times);
+
+	fo ( int i = 1; i < = times; i++) 
+	{
+		if ( i == 1)
+		{
+			memcpy(chars, string, strlen(string));
+		}else {
+			memcpy(chars + ((strlen(string)  * i)  - strlen(string)), string, strlen(string); 
+
+		}
+	}
+
+	chars[length*times] = '\0';
+	ObjString* str = takeString(chars,length * times);
+
+	push(OBJ_VAL(str)); 
+
+}
+
+
+
+static void concatinate()
+{
+	ObjString* bstring = AS_STRING(pop());
+	ObjString* astring = AS_STRING(pop());
+
+	int length = astring->length + bstring->length;
+	char* chars = ALLOCATE(char, length+1);
+
+	memcpy(chars, astring->chars, astring->length);
+	memcpy(chars + astring->length, bstring->chars, bstring->length);
+	chars[length] = '\0';
+
+	ObjString*  string = takeString(chars, length);
+
+	push(OBJ_VAL(string));
+
+}
+
 
 
 static bool  isFalsey(Value value){
@@ -168,9 +230,36 @@ InterpretResult run(){
 
 
 		// four binary arithmatic operations
-		case OP_ADD: BINARY_OP(NUMBER_VAL, +); break;
+		case OP_ADD:
+		{
+		   if (IS_STRING(peek(0)) && IS_STRING(peek(1)))
+		   {
+			concatinate();
+
+		   }else if (IS_NUMBER(peek(0)) && IS_NUMBER(peek(1)))
+		    {
+			BINARY_OP(NUMBER_VAL, +); break;
+
+		     }else{
+				runtimeError("operands la isku daraayo waa inay noqdaan 2 number ama 2 string");
+				return INTERPRET_RUNTIME_ERROR;
+		   }
+
+		}
 		case OP_SUBTRACT: BINARY_OP(NUMBER_VAL, -); break;
-		case OP_MULTIPLY: BINARY_OP(NUMBER_VAL, *);break;
+
+		case OP_MULTIPLY: {
+		    if ( IS_NUMBER(peek(0)) && IS_NUMBER(peek(1))){
+			BINARY_OP(NUMBER_VAL, *);break;
+		    }else if (IS_NUMBER(peek(0)) && IS_STRING(peek(1))){
+				mulSring(); break;
+		    }else {
+			runtimeError("waxaad isku dhufo kartaa numbers");
+			return INTERPRET_RUNTIME_ERROR;
+		   }
+
+
+
 		case OP_DIVIDE: BINARY_OP(NUMBER_VAL, /); break;
 
 

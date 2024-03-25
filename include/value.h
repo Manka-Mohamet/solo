@@ -9,6 +9,13 @@ waxay isticmaaleynaa 8 macros si aan  sola value ugu badalno c struct.
 #define solo_value_h
 
 #include "common.h"
+#include "object.h"
+
+
+// we forward declared becouse of some cyclic dependencies.
+typedef struct Obj Obj;
+
+
 
 /*
   @Discription - enum kani waxa uu ka koobanyahay different dataTypes
@@ -29,6 +36,9 @@ typedef enum{
 
 
 
+
+
+
 /*
  @Description -  constant values sidda numbers, string waxaa keydinaayaa Value struct
    Value struct is union  taaso lamicna tahay in c language
@@ -44,9 +54,14 @@ typedef struct{
 	union{
 	      double number;
 	      bool boolean;
+	      Obj* obj;
 	}as;
 
 }Value;
+
+
+
+
 
 /*
  THESE MACROS - wxay numbers, booleans and null ku keydinaayaan 'Value Struct'
@@ -54,6 +69,8 @@ typedef struct{
 #define NUMBER_VAL(value)   ((Value){NUMBER, {.number = value}})
 #define NIL_VAL             ((Value){NIL, {.number = 0}})
 #define BOOL_VAL(value)     ((Value){BOOL,  {.boolean = value}})
+#define OBJ_VAL(value)      ((value){OBJ, {.obj = (Obj*)value)
+
 
 
 /*
@@ -61,6 +78,8 @@ THESE MACROS - waxay qaadanaayaan 'Value Struct', kadib waxay soo return gareena
 */
 #define AS_BOOL(value)   ((value).as.boolean)
 #define AS_NUMBER(value) ((value).as.number)
+#define AS_OBJ(value)    ((value).as.obj)
+
 
 
 /*
@@ -69,6 +88,8 @@ THESE MACROS - waxay hubinaayaan 'Value Struct' loosoo baasay inuu type kiisa mi
 #define IS_BOOL(value)    ((value).type == BOOL)
 #define IS_NIL(value)     ((value).type == NIL)
 #define IS_NUMBER(value)  ((value).type == NUMBER)
+#define IS_OBJ(value)     ((value).type == OBJ);
+
 
 
 
@@ -90,14 +111,21 @@ typedef struct{
 
 
 
+
 // waxay initialize gareenee new ValueArray.
 void initValueArray(ValueArray* array);
+
+
 
 //waxay ogolaanee inaan array da ku keydino new Value.
 void writeValueArray(ValueArray* array,  Value value);
 
+
+
 //waxay ogolaanee inaan free gareeno array dan memoryga ay isticmaashay.
 void freeValueArray(ValueArray* array);
+
+
 
 // printValue - waa  function kaliya dhaga caawineysa inaan  ouput sameen karno.
 void printValue(Value value);

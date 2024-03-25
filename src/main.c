@@ -8,7 +8,7 @@
 
 static void _runRepl(){
 
-	printf("sola is dynamicly typed scripting language based on somali words\n");
+	printf("solo is dynamicly typed scripting language based on somali words\n");
 	printf("running on Linux at 3/3/2024 22:30\n");
 	printf("write  \"kabax\" if you want to exit the program.\n");
 

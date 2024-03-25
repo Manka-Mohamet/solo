@@ -47,8 +47,8 @@ typedef enum{
 	TOKEN_SUPER, TOKEN_TRUE, TOKEN_FALSE,
 	TOKEN_NIL,   TOKEN_EXTENDS,  TOKEN_INPUT,
 
-	// end and error charecters
-	TOKEN_ERROR, TOKEN_EOF,
+	// end of charecters
+	TOKEN_EOF,
 
 }TokenType;
 

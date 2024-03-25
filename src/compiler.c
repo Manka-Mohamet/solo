@@ -95,14 +95,6 @@ static void errorAt(Token* token, char* message){
 
 
 
-static void errorAtCurrent(char* message){
-	errorAt(&parser.current, message);
-}
-
-
-
-
-
 static void error(char* message){
 	errorAt(&parser.previous, message);
 }
@@ -115,19 +107,7 @@ static void error(char* message){
 ////////////////////
 static void advance(){
 	parser.previous = parser.current;
-
-
-	for(;;){
-
-	   parser.current =   *tokArray.tokens;
-	   tokArray.tokens++;
-
-	   if (parser.current.type != TOKEN_ERROR) break;
-
-	   errorAtCurrent(parser.current.start);
-
-	}
-
+	parser.current =   *tokArray.tokens++;
 }
 
 
@@ -224,6 +204,14 @@ static void number(){
 
 
 
+
+static void string(){
+	emiyConstant(OBJ_VAL(copyString(parser.previous.start + 1, parser.previous.start - 2)));
+}
+
+
+
+
 static void literal(){
 	TokenType type = parser.previous.type;
 
@@ -311,7 +299,7 @@ Example:
 ParseRule rules[] = {
  [TOKEN_LEFT_PAREN] = {grouping, NULL, PREC_NONE},
  [TOKEN_RIGHT_PAREN] = {NULL, NULL, PREC_NONE},
- [TOKEN_LEFT_BRACE] = {NULL, NULL, PREC_NONE}, 
+ [TOKEN_LEFT_BRACE] = {NULL, NULL, PREC_NONE},
  [TOKEN_RIGHT_BRACE] = {NULL, NULL, PREC_NONE},
  [TOKEN_COMMA] = {NULL, NULL, PREC_NONE},
  [TOKEN_DOT] = {NULL, NULL, PREC_NONE},
@@ -320,7 +308,7 @@ ParseRule rules[] = {
  [TOKEN_SEMICOLON] = {NULL, NULL, PREC_NONE},
  [TOKEN_SLASH] = {NULL, binary, PREC_FACTOR},
  [TOKEN_STAR] = {NULL, binary, PREC_FACTOR},
- [TOKEN_BANG] = {NULL, NULL, PREC_NONE},
+ [TOKEN_BANG] = {unary, NULL, PREC_NONE},
  [TOKEN_BANG_EQUAL] = {NULL, binary, PREC_NONE},
  [TOKEN_EQUAL] = {NULL, NULL, PREC_NONE},
  [TOKEN_EQUAL_EQUAL] = {NULL, binary,  PREC_NONE},
@@ -329,7 +317,7 @@ ParseRule rules[] = {
  [TOKEN_LESS] = {NULL, binary, PREC_NONE},
  [TOKEN_LESS_EQUAL] = {NULL, binary, PREC_NONE},
  [TOKEN_IDENTIFIER] = {NULL, NULL, PREC_NONE},
- [TOKEN_STRING] = {NULL, NULL, PREC_NONE},
+ [TOKEN_STRING] = {string,  NULL, PREC_NONE},
  [TOKEN_NUMBER] = {number, NULL, PREC_NONE},
  [TOKEN_AND] = {NULL, NULL, PREC_NONE},
  [TOKEN_CLASS] = {NULL, NULL, PREC_NONE},
@@ -338,16 +326,15 @@ ParseRule rules[] = {
  [TOKEN_FOR] = {NULL, NULL, PREC_NONE},
  [TOKEN_FUN] = {NULL, NULL, PREC_NONE},
  [TOKEN_IF] = {NULL, NULL, PREC_NONE},
- [TOKEN_NIL] = {NULL, NULL, PREC_NONE},
- [TOKEN_OR] = {literal, NULL, PREC_NONE},
- [TOKEN_PRINT] = {printStatement, NULL, PREC_NONE},
+ [TOKEN_NIL] = {literal, NULL, PREC_NONE},
+ [TOKEN_OR] = {NULL, NULL, PREC_NONE},
+ [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
  [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
  [TOKEN_SUPER] = {NULL, NULL, PREC_NONE},
  [TOKEN_THIS] = {NULL, NULL, PREC_NONE},
  [TOKEN_TRUE] = {literal, NULL, PREC_NONE},
  [TOKEN_VAR] = {NULL, NULL, PREC_NONE},
  [TOKEN_WHILE] = {NULL, NULL, PREC_NONE},
- [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
  [TOKEN_EOF] = {NULL, NULL, PREC_NONE},
 };
 
