@@ -26,6 +26,7 @@ typedef enum{
 
 struct Obj{
 	ObjectType type;
+  struct Obj* next;
 
 };
 
