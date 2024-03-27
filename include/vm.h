@@ -45,6 +45,11 @@ typedef struct{
 
 	uint8_t*  ip;
 	Chunk* chunk;
+  
+  /* objects waa pointer to the first object     
+   in the linked list, waxaan u adeegsaneena garbage collection. */
+  Obj* objects;
+
 }VM;
 
 
