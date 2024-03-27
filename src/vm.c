@@ -24,7 +24,7 @@ static void resetStack(){
 
 void initVM(){
  vm.stack = NULL;
-	vm.stackTop = vm.stack;
+  vm.stackTop = vm.stack;
   vm.objects = NULL;
   vm.capacity = 0;
   vm.length = 0;
