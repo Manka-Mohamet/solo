@@ -96,13 +96,21 @@ type this command to the terminal.
 solo
 ```
 
-This opens the solo repl in the terminal where you can execute solo code line by line.
+This opens the solo repl in the terminal where you can execute solo code line by line like this.
 
-## Solo Script
+```sh
+>>> daabac "Hello, World";
+Hello, World
+
+>>> daabac 42 * 2 + 6;
+90
+```
+
+## Using File
 
 create file named `main.solo` the solo script file must always have `.solo` extension.
 
-open your fav editor then write this script to the `main.solo`.
+open your editor then write this script to the `main.solo`.
 
 ```py
 def test(){
@@ -113,8 +121,6 @@ def test(){
 test();
 
 ```
-
-## Using File
 
 and then  you can run the script file using this command.
 
