@@ -21,7 +21,9 @@ void* reallocate(void* pointer, size_t oldSize, size_t newSize){
 
 
 
-/*
+
+
+
 static void freeObject(Obj* object){
     switch(object->type){
         case OBJ_STRING:{
@@ -32,14 +34,16 @@ static void freeObject(Obj* object){
         }
     }
 }
-*/
 
 
-// void freeObjects(){
-//     Obj* object = vm.objects;
-//     while(object != NULL){
-//         Obj* next = object->next;
-//         freeObject(object);
-//         object = next;
-//     }
-// }
+
+
+
+void freeObjects(){
+     Obj* object = vm.objects;
+     while(object != NULL){
+         Obj* next = object->next;
+         freeObject(object);
+         object = next;
+     }
+}

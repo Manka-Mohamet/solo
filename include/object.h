@@ -26,14 +26,14 @@ typedef enum{
 
 struct Obj{
 	ObjectType type;
-  struct Obj* next;
+	struct Obj* next;
 
 };
 
 
 
 struct ObjString{
-	Obj obj;
+	struct Obj obj;
 	int length;
 	char* chars;
 

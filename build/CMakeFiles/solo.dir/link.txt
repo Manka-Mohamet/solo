@@ -1,0 +1,1 @@
+/data/data/com.termux/files/usr/bin/cc -O2 -g -DNDEBUG CMakeFiles/solo.dir/src/main.c.o -o /data/data/com.termux/files/home/solo/bin/solo

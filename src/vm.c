@@ -13,24 +13,24 @@
 #include "../include/object.h"
 
 
-VM vm;
+extern VM vm;
 
 
 static void resetStack(){
-	freeStack(&vm);
+	vm.objects = NULL;
 }
 
 
 
 void initVM(){
- vm.stack = NULL;
+  vm.stack = NULL;
   vm.stackTop = vm.stack;
   vm.objects = NULL;
   vm.capacity = 0;
   vm.length = 0;
   vm.chunk = NULL;
   vm.ip = NULL;
- 
+
 }
 
 
@@ -330,5 +330,5 @@ InterpretResult interpret(char* source){
 
 
 void freeVM(){
-
+	freeObjects();
 }

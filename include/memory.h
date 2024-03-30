@@ -6,6 +6,8 @@
 #define solo_memory_h
 
 #include "common.h"
+#define "object.h"
+
 
 #define ALLOCATE(type, length)
 	(type*)reallocate(NULL, 0, sizeof(type) * (length))
@@ -22,6 +24,9 @@
 #define FREE_ARRAY(type, pointer, capacity) \
 	reallocate(pointer, sizeof(type) * (capacity), 0)
 
+
+#define FREE(type, pointer)
+	reallocate(pointer, sizeof(type), 0)
 
 
 void* reallocate(void* pointer, size_t oldSize, size_t newSize);

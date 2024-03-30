@@ -1,0 +1,3 @@
+/data/data/com.termux/files/home/solo/build/CMakeFiles/solo.dir
+/data/data/com.termux/files/home/solo/build/CMakeFiles/edit_cache.dir
+/data/data/com.termux/files/home/solo/build/CMakeFiles/rebuild_cache.dir
