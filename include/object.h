@@ -32,13 +32,16 @@ struct Obj{
 
 
 
+
 struct ObjString{
 	struct Obj obj;
 	int length;
 	char* chars;
+	uint32_t hash;
 
 };
 
+typedef struct ObjString ObjString;
 
 ObjString* takeString(char* chars, int length);
 
