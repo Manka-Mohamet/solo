@@ -165,11 +165,3 @@ His blog posts, papers and books he talked about different parsing techniques fo
 
 
 Thanks again for providing Free Educational Resources.
-
-
-
-# End
-
-Also if you want to contribute and have fun adding features to this
-project you are welcome  contact [A/Man](https://wa.link/0gaepx)
-and read [contribute guide](./CONTRIBUTING.md).
