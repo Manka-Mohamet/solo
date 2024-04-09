@@ -30,8 +30,6 @@ If you want to run solo in you local machine.
 First clone the repository
 
 ```sh
-mkdir sola/
-cd solo
 git clone https://github.com/Manka-Mohamet/solo.git
 ```
 
@@ -41,18 +39,26 @@ When the repository is cloned or downloaded in local device,
 
 Then if you are using linux, windows  and macOs  you can run this command to automate and build binary files that is needed.
 
+goto the `build/` directory and run `make` to automate and create the binary file that is needed. 
+
 ```sh
+cd solo/build/
 make
 ```
 
-It will generate `bin/`  directory,
+In the `bin/`  directory, it will generate binary file named `solo`. 
+
 then you will need to add this bin folder to the path enviroment variable to access this binary everywhere.
 
-##### in linux
+##### In Linux & MacOs
+
 
 ```sh
 export PATH=$PATH:bin/
 ```
+
+
+
 ##### in windows
 
 1. click the Start menu.
@@ -68,34 +74,10 @@ In the top list, scroll down to the PATH variable, select it,
 
 1. click OK to close each dialog box.
 
-### Executing on your own
+> if you confussed of how to add enviromental variables you can google: `` how to add enviromental variable in Windows/Linux/MacOs``.
+>
+> you can also watch a youtube vedios to understand it.
 
-if you want to excute the c files on your own. 
-
-there are many c compiler you can use the build the binary file.
-
-the two most used c compilers are `llvm` and `gcc`.
-
-You will need to install `c compiler`,
-My favourite c compiler is `gcc` i recomend you to use this one.
-But you can you use what compiler that you like.
-
-Run this to generate the solo binary file
-
-```sh
-cd solo
-gcc -O3  -Wall -Wextra -Werror -ggdb -o solo  src/*
-```
-
-create this folder
-
-```sh
-mkdir bin/
-mv solo bin/
-```
-
-Move the binary file to the `bin/` directory
-then add the path of this `bin/` directory add in the enviromental viriables, so that you can run the language where ever you want.
 
 
 # Getting Start
@@ -114,13 +96,21 @@ type this command to the terminal.
 solo
 ```
 
-This opens the solo repl in the terminal where you can execute solo code line by line.
+This opens the solo repl in the terminal where you can execute solo code line by line like this.
 
-## Solo Script
+```sh
+>>> daabac "Hello, World";
+Hello, World
+
+>>> daabac 42 * 2 + 6;
+90
+```
+
+## Using File
 
 create file named `main.solo` the solo script file must always have `.solo` extension.
 
-open your fav editor then write this script to the `main.solo`.
+open your editor then write this script to the `main.solo`.
 
 ```py
 def test(){
@@ -131,8 +121,6 @@ def test(){
 test();
 
 ```
-
-## Using File
 
 and then  you can run the script file using this command.
 

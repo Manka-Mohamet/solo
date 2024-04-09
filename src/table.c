@@ -7,6 +7,9 @@
 #include "../include/object.h"
 #include "../include/table.h"
 
+#define TABLE_MAX_LOAD 0.75
+
+
 
 void initTable(Table* table){
 	table->count = 0;
@@ -16,7 +19,28 @@ void initTable(Table* table){
 }
 
 
+
+static Entry* findEntry(Entry* entries, int capacity, ObjString* key){
+	uint32_t index = key->hash %  capacity;
+
+	for (;;){
+		Entry* entry = entries[index];
+		if (entry->key == key || entry->key == NULL){
+			return entry;
+		}
+
+	index = (index + 1) % capacity;
+	}
+
+}
+
+
 bool tableSet(Table* table, ObjString* key, Value value){
+	if(table->count + 1 > table->capacity * TABLE_MAX_LOAD){
+		int capacity = GROW_CAPACITY(table->capcity);
+		adjustCapacity(table, capacity);
+	}
+
 	Entry* entry = findEntry(table->entries, table->capacity, key);
 	if (entry->key == NULL) table->count++;
 	entry->key = key;
