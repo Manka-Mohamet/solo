@@ -128,7 +128,7 @@ and then  you can run the script file using this command.
 solo main.solo
 ```
 
-and last it prints `Hello,  world` to the terminal.
+and last it prints `Hello, world` to the terminal.
 
 
 
