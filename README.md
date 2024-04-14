@@ -8,16 +8,19 @@ this project started when i was learning compiler and language design.
 ## Some Background
 
 solo is written in `c`, and it compiles to custom `bytecode`,
-and immediately executes or runs that bytecode 
+and immediately interprets that bytecode 
 in the `vm` to produce the result.
+this method is easy and fast compared to traversing ASTs.
 
-For the record there are different of compilers to execute code.
+
+
+For the record there are different of compiling code.
 
 The first one is by compiling to `Machine Code`: `0s and 1s`
 
-The second one is by compiling to `bytecode`: custom assembly instructions
+The second one is by compiling to `bytecode`: custom `1 byte` instructions.
 
-The Third one is by compiling to `Abstract Sytax Tree ASTs`
+The Third one is by compiling to `Abstract Sytax Tree (ASTs)`
 
 And The Last one is by compiling to another language and it's called `Transcript`.
 
