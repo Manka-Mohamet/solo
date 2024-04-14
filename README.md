@@ -11,6 +11,16 @@ solo is written in `c`, and it compiles to custom `bytecode`,
 and immediately executes or runs that bytecode 
 in the `vm` to produce the result.
 
+For the record there are different of compilers to execute code.
+
+The first one is by compiling to `Machine Code`: `0s and 1s`
+
+The second one is by compiling to `bytecode`: custom assembly instructions
+
+The Third one is by compiling to `Abstract Sytax Tree ASTs`
+
+And The Last one is by compiling to another language and it's called `Transcript`.
+
 
 
 ## Virtual Machine(VM)
@@ -128,7 +138,7 @@ and then  you can run the script file using this command.
 solo main.solo
 ```
 
-and last it prints `Hello,  world` to the terminal.
+and last it prints `Hello, world` to the terminal.
 
 
 
@@ -155,11 +165,3 @@ His blog posts, papers and books he talked about different parsing techniques fo
 
 
 Thanks again for providing Free Educational Resources.
-
-
-
-# End
-
-Also if you want to contribute and have fun adding features to this
-project you are welcome  contact [A/Man](https://wa.link/0gaepx)
-and read [contribute guide](./CONTRIBUTING.md).

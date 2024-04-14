@@ -19,6 +19,37 @@ void initTable(Table* table){
 }
 
 
+static void adjustCapacity(Table* table, int capacity)
+{
+
+	Entry* entries = ALLOCATE(Entry, capacity);
+
+	for(int i = 0; i < capacity; i++)
+	{
+		entry[i] = NULL;
+		entry[i] = NIL;
+	}
+
+	for(int i = 0; i < table->capacity; i++)
+	{
+
+		Entry* entry = &table->entry[i];
+
+		if (entry->key == NULL) continue;
+
+		Entry destination = findEntry(entries, capacity, entry->key);
+
+		destination->key   = entry->key;
+		destination->value = entry->value;
+	}
+
+	FREE(Entry, table->entries, capacity);
+
+	Table->entries = entry;
+	Table->capacity = capacity;
+}
+
+
 
 static Entry* findEntry(Entry* entries, int capacity, ObjString* key){
 	uint32_t index = key->hash %  capacity;
@@ -36,17 +67,41 @@ static Entry* findEntry(Entry* entries, int capacity, ObjString* key){
 
 
 bool tableSet(Table* table, ObjString* key, Value value){
+
 	if(table->count + 1 > table->capacity * TABLE_MAX_LOAD){
 		int capacity = GROW_CAPACITY(table->capcity);
 		adjustCapacity(table, capacity);
 	}
 
 	Entry* entry = findEntry(table->entries, table->capacity, key);
+
 	if (entry->key == NULL) table->count++;
+
 	entry->key = key;
 	entry->value = value;
 
 	return true;
+
+}
+
+
+
+
+void tableAddAll(Table* from, Table* to)
+{
+
+	for (int i = 0; i < from->capacity; i++)
+	{
+
+		Entry entry = &from->entry[i];
+
+		if (entry->key != NULL)
+		{
+			tableSet(to, entry->key, entry->value);
+		}
+
+	}
+
 
 }
 

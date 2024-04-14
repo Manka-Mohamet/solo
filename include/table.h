@@ -44,4 +44,7 @@ void freeTable(Table* table);
 // waxay  binding kusameeneysaa given  key and  value.
 bool tableSet(Table* table, ObjString* key, Value value);
 
+// waxay soo rareesaa dhamaan key/value from one HashTable to another.
+void tableAddAll(Table* from, Table* to);
+
 #endif
