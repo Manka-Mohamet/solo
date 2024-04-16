@@ -1,6 +1,6 @@
 # solo
 
-solo is a toy programming language, and is not meant for use of real programming - it only meant for education and learning.
+solo is a toy programming language, and is not meant for use of real programming - it only meant for education and learning purpose.
 
 solo is dynamicly typed scripting language,
 That uses somali keywords.
