@@ -16,7 +16,7 @@ this method is easy and fast compared to traversing ASTs.
 
 
 
-For the record there are different of compiling code.
+For the record there are different way of compiling code.
 
 The first one is by compiling to `Machine Code`: `0s and 1s`
 
