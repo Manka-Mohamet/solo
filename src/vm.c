@@ -267,8 +267,14 @@ InterpretResult run(){
 
 
 
-		case OP_DIVIDE: BINARY_OP(NUMBER_VAL, /); break;
-
+		case OP_DIVIDE:{
+		 if (AS_NUMBER(peek(1)) == 0 && IS_NUMBER(peek(0))){
+			runtimeError("number looma qeybin karo zero '0'. ");
+			return INTERPRET_RUNTIME_ERROR;
+		   }else{
+			 BINARY_OP(NUMBER_VAL, /); break;
+		    }
+		}
 
 
 		// four types of comparison operations.
