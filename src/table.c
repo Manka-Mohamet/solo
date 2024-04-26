@@ -24,6 +24,7 @@ static void adjustCapacity(Table* table, int capacity)
 
 	Entry* entries = ALLOCATE(Entry, capacity);
 
+	table->count = 0;
 	for(int i = 0; i < capacity; i++)
 	{
 		entry[i] = NULL;
@@ -41,6 +42,8 @@ static void adjustCapacity(Table* table, int capacity)
 
 		destination->key   = entry->key;
 		destination->value = entry->value;
+
+		table->count++;
 	}
 
 	FREE(Entry, table->entries, capacity);
@@ -53,10 +56,21 @@ static void adjustCapacity(Table* table, int capacity)
 
 static Entry* findEntry(Entry* entries, int capacity, ObjString* key){
 	uint32_t index = key->hash %  capacity;
+	Entry* tombstone = NULL;
 
 	for (;;){
 		Entry* entry = entries[index];
-		if (entry->key == key || entry->key == NULL){
+		if ( entry->key == NULL)
+		{
+		   if (IS_NIL(entry->value)
+		   {
+			// Empty Entry.
+			return tombstone != NULL ? tombstone : entry;
+		   }else{
+			// tombstone found.
+			if (tombstone == NULL) tombstone = entry;
+		   }
+		}else if  ( entry->key == key){
 			return entry;
 		}
 
@@ -75,12 +89,44 @@ bool tableSet(Table* table, ObjString* key, Value value){
 
 	Entry* entry = findEntry(table->entries, table->capacity, key);
 
-	if (entry->key == NULL) table->count++;
+	if (entry->key == NULL && IS_NIL)) table->count++;
 
 	entry->key = key;
 	entry->value = value;
 
 	return true;
+
+}
+
+
+
+bool tableGet(Table* table, ObjString* key, Value* value)
+{
+	if ( table->count == 0) return false;
+
+	Entry* entry = findEntry(table->entries, table->count, key);
+	if (entry->key == NULL) return false;
+
+	*value = entry->value;
+
+	return true;
+
+}
+
+
+
+bool tableDel(Table* table, ObjString* key)
+{
+	if(table->count == 0) return false;
+
+	Entry* entry = findEntry(table->entries, table->capacity, key);
+	if (entry->key == NULL) return false;
+
+	entry->key = NULL;
+	entry->value = BOOL_VAL(true);
+
+	return true;
+
 
 }
 
@@ -104,6 +150,8 @@ void tableAddAll(Table* from, Table* to)
 
 
 }
+
+
 
 
 

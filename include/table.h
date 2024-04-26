@@ -44,6 +44,15 @@ void freeTable(Table* table);
 // waxay  binding kusameeneysaa given  key and  value.
 bool tableSet(Table* table, ObjString* key, Value value);
 
+
+// waxay hashTable ka search gareeneysaa value in a given key .
+bool tableGet(Table* table, ObjString* key, Value value);
+
+
+//waxay HashTable ka delete gareeneysaa value in a given key.
+bool tableDel(Table* table, ObjString* key);
+
+
 // waxay soo rareesaa dhamaan key/value from one HashTable to another.
 void tableAddAll(Table* from, Table* to);
 
