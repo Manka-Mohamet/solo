@@ -1,10 +1,10 @@
+
 #ifndef solo_object_h
 #define solo_object_h
 
-
-
-#include "common.h"
 #include "value.h"
+#include "common.h"
+
 
 
 #define IS_STRING(value) isObjectType(value, OBJ_STRING)
@@ -49,7 +49,7 @@ void printObject(Value value);
 
 ObjString* copyString(const char* chars, int length);
 
-statid inline bool isObjType(Value value, ObjectType type){
+static inline bool isObjType(Value value, ObjectType type){
 	return IS_OBJ(value) && AS_OBJ(value)->type == type;
 }
 
